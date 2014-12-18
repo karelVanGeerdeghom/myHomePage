@@ -9,3 +9,7 @@ cv:
 portfolio:
     path:   /portfolio
     defaults: { _controller: MyHomePageBundle:Portfolio:index }
+    
+contact:
+    path:   /contact
+    defaults: { _controller: MyHomePageBundle:Contact:index }

@@ -5,7 +5,64 @@ html {
   -o-background-size: cover;
   background-size: cover;
 }
+//############################################################################# Navigation
+.navContainer {
+    width:96%;
+    margin: 0 auto;
+    font-family:Arial;
+    overflow:hidden;
+    outline: red 1px solid;
+}
 
-#content p {
+.navbar {
+    font-size:1.5em;
+    width:11.2em;
+    margin:0 auto;
+    overflow:hidden;
+    outline: red 1px solid;
+}
+
+.navbar ul {
+    margin:0;
+    padding:0;
+    list-style: none;
+}
+
+.navItem {
+    float:left;
+    text-align: center;
+    width:4.8em;
+    margin:.3em;
+    border-radius:.25em;    
+    background-color: #80A5DC;
+    border:.1em solid #87AEE5;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 1) inset, 0 0 16px rgba(150, 194, 255, 255);
+}
+
+.navItem:hover {
+    background-color: #C9E8EF;
+    border:.1em solid #D6F6FF;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.075) inset, 0 0 16px rgba(214, 246, 255, 255);
+}
+
+.navItemSelected {
+    float:left;
+    text-align: center;
+    width:4.8em;
+    margin:.3em;
+    border-radius:.25em;   
+    background-color: #C9E8EF;
+    border:.1em solid #D6F6FF;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.075) inset, 0 0 16px rgba(214, 246, 255, 255);
+}
+
+.navbar li a {
+    font-family: 'Amatic SC', cursive;
+    text-decoration: none;
+    color:black;
+    display:block;
+}
+
+.content p {
     color:red;
 }
