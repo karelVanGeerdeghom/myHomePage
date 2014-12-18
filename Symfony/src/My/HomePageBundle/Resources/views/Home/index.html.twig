@@ -1,3 +1,13 @@
 {% extends 'MyHomePageBundle:Home:base.html.twig' %}
 
-{% block content %}Heya!{% endblock %}
+{% block title %}Home{% endblock %}
+
+{% block navbar %}
+    <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/cv">CV</a></li>
+        <li><a href="/portfolio">Portfolio</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}<p>Content here</p>{% endblock %}
