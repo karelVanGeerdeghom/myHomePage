@@ -1,3 +1,11 @@
-my_home_page_homepage:
+home:
     path:     /home
     defaults: { _controller: MyHomePageBundle:Home:index }
+
+cv:
+    path:   /cv
+    defaults: { _controller: MyHomePageBundle:Cv:index }
+    
+portfolio:
+    path:   /portfolio
+    defaults: { _controller: MyHomePageBundle:Portfolio:index }
