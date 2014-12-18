@@ -1,3 +1,7 @@
+my_home_page:
+    resource: "@MyHomePageBundle/Resources/config/routing.yml"
+    prefix:   /
+
 app:
     resource: @AppBundle/Controller/
     type:     annotation
