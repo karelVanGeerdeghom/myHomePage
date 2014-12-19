@@ -11,14 +11,14 @@
     </head>
     <body>
         {% block javascripts %}{% endblock %}
-        <header>
+        <header class="clearFix">
+            <div class="logo"><h1>Digital Nature</h1></div>
             <div class="navContainer">
                 <div id="navbar" class="navbar">
                     {% block navbar %}{% endblock %}
                 </div>
             </div>
         </header>
-
         
         <div id="wrapper" class="wrapper">
             <div id="content" class="content">

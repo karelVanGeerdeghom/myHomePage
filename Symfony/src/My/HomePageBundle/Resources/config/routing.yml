@@ -1,5 +1,5 @@
 home:
-    path:     /home
+    path:     /
     defaults: { _controller: MyHomePageBundle:Home:index }
 
 cv:
@@ -13,3 +13,7 @@ portfolio:
 contact:
     path:   /contact
     defaults: { _controller: MyHomePageBundle:Contact:index }
+    
+admin:
+    path: /admin
+    defaults: { _controller: MyHomePageBundle:Admin:index }
