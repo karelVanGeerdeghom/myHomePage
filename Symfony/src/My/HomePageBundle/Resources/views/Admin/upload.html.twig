@@ -1,0 +1,18 @@
+{% extends 'MyHomePageBundle::base.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block navbar %}
+    <ul>
+        <li class="navItem"><a href="/symfony/web/app_dev.php">Home</a></li>
+        <li class="navItem"><a href="/symfony/web/app_dev.php/cv">CV</a></li>
+        <li class="navItem"><a href="/symfony/web/app_dev.php/portfolio">Portfolio</a></li>
+        <li class="navItem"><a href="/symfony/web/app_dev.php/contact">Contact</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

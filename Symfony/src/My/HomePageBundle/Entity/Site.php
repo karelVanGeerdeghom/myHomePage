@@ -3,6 +3,10 @@
 namespace My\HomePageBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Site
@@ -10,8 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="My\HomePageBundle\Entity\SiteRepository")
  */
-class Site
-{
+class Site {
     /**
      * @var integer
      *
@@ -24,7 +27,7 @@ class Site
     /**
      * @var string
      *
-     * @ORM\Column(name="Name", type="string", length=255)
+     * @ORM\Column(name="Name", type="string", length=100)
      */
     private $name;
 
@@ -45,9 +48,9 @@ class Site
     /**
      * @var string
      *
-     * @ORM\Column(name="Image", type="string", length=255)
+     * @ORM\Column(name="Path", type="string", length=255)
      */
-    private $image;
+    private $path;
 
     /**
      * @var boolean
@@ -55,7 +58,8 @@ class Site
      * @ORM\Column(name="Active", type="boolean")
      */
     private $active;
-    
+
+
     /**
      * Get id
      *
@@ -129,6 +133,27 @@ class Site
     }
 
     /**
+     * Set path
+     *
+     * @param string $path
+     * @return Site
+     */
+    public function setPath($path) {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get path
+     *
+     * @return string 
+     */
+    public function getPath() {
+        return $this->path;
+    }
+
+    /**
      * Set active
      *
      * @param boolean $active
@@ -147,26 +172,5 @@ class Site
      */
     public function getActive() {
         return $this->active;
-    }
-
-    /**
-     * Set image
-     *
-     * @param string $image
-     * @return Site
-     */
-    public function setImage($image) {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return string 
-     */
-    public function getImage() {
-        return $this->image;
     }
 }

@@ -17,3 +17,7 @@ contact:
 admin:
     path: /admin
     defaults: { _controller: MyHomePageBundle:Admin:index }
+
+upload:
+    path: /admin/upload
+    defaults: { _controller: MyHomePageBundle:Admin:upload }
