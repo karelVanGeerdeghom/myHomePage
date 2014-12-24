@@ -1,0 +1,7 @@
+games:
+    path:     /games
+    defaults: { _controller: MyGamesBundle:Default:index }
+    
+monopoly:
+    path:     /games/monopoly
+    defaults: { _controller: MyGamesBundle:Monopoly:index }

@@ -1,0 +1,21 @@
+{% extends 'MyGamesBundle::base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('bundles/games/js/vendor/jquery-ui-1.11.2.custom/jquery-ui.min.css') }}" rel="stylesheet" /> 
+    <link href="{{ asset('bundles/games/css/monopoly.css') }}" rel="stylesheet" />   
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript"  src="{{ asset('bundles/games/js/vendor/jquery-ui-1.11.2.custom/external/jquery/jquery.js') }}"></script>
+    <script type="text/javascript"  src="{{ asset('bundles/games/js/vendor/jquery-ui-1.11.2.custom/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript"  src="{{ asset('bundles/games/js/tiles.js') }}"></script>
+    <script type="text/javascript"  src="{{ asset('bundles/games/js/players.js') }}"></script>
+    <script type="text/javascript"  src="{{ asset('bundles/games/js/monopoly.js') }}"></script>
+{% endblock %}
+
+{% block title %}Monopoly{% endblock %}
+
+{% block content %}
+    <div id="dialog" class="dialog" title="Notification"></div>
+    <div class="content" id="content"></div>
+{% endblock %}

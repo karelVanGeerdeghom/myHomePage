@@ -1,3 +1,7 @@
+my_games:
+    resource: "@MyGamesBundle/Resources/config/routing.yml"
+    prefix:   /
+
 my_home_page:
     resource: "@MyHomePageBundle/Resources/config/routing.yml"
     prefix:   /
