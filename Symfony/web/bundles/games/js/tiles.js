@@ -14,8 +14,7 @@ var aoTiles = [
         type: "street",
         name: "Mediterranean Avenue",
         rent: [2, 10, 30, 90, 160, 250],
-        cost: 50,
-        owner: 1
+        cost: 50
     },
     {
         id: 2,

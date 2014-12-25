@@ -13,4 +13,4 @@ var aoPlayers = [
         credits: 1500,
         avatar: "dog"
     }
-]
+];

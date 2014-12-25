@@ -10,12 +10,14 @@ and open the template in the editor.
 .dialog {
     display: none;
 }
+.content {
+    font-family: Arial;
+}
 /****************************************************************************** INFORMATION */
 .info {
     width: 240px;
-    height: 370px;
     margin: 20px;
-    float: left;
+    float: right;
     background-color: white;
     border: black 2px solid;
 }
@@ -28,16 +30,16 @@ and open the template in the editor.
 
 .infoBody {
     width: 240px;
-    height: 246px;
     float: left;
     border-top: black 2px solid;
-    border-bottom: black 2px solid;
+    padding-bottom: 15px;
 }
 
 .infoFoot {
     width: 240px;
     height: 60px;
     float: left;
+    border-top: black 2px solid;
     text-align: center;
 }
 
@@ -64,38 +66,38 @@ and open the template in the editor.
     text-align: left;
 }
 
-.buy {
-    margin-top: 25px;
-}
-
-.pay {
-    margin-top: 25px;
+.infoGreen {
+    font-weight: bold;
+    color: green;
 }
 /****************************************************************************** MENU LAYOUT */
 .menu {
     width: 240px;
-    height: 600px;
     float: left;
-    outline: black 1px solid;
+    margin: 20px;
+    background-color: white;
+    border: black 2px solid;
 }
 
 .players {
     width: 240px;
-    height: 400px;
     float: left;
-    outline: black 1px solid;
 }
 
 .stats {
     width: 240px;
     height: 100px;
     float: left;
-    outline: black 1px solid;
+    border-top: black 2px solid;
+}
+
+.stats p {
+    margin-left: 25px;
 }
 
 .stats p>span:first-child {
     float: left;
-    width: 100px;
+    width: 75px;
 }
 
 .stats p>span:nth-child(2) {
@@ -107,23 +109,21 @@ and open the template in the editor.
     width: 120px;
     height: 60px;
     float: left;
-    outline: black 1px solid;
 }
 
 .action {
     width: 120px;
     height: 60px;
     float: left;
-    outline: black 1px solid;
 }
 
 .actionButton {
-    width: 110px;
-    height: 50px;
-    margin: 5px;
+    width: 116px;
+    height: 56px;
+    margin: 2px;
     font-size: 1.2em;
-    font-weight: bold;
     text-align: center;
+    float: left;
 }
 
 .die {
@@ -168,6 +168,27 @@ and open the template in the editor.
     z-index: 10;
 }
 
+.playerHighLight {
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.075) inset, 0 0 64px rgba(0, 255, 0, 128);
+    z-index: 10;
+}
+
+.greenLed {
+    background-image: url(../images/greenLed.png);
+}
+
+.yellowLed {
+    background-image: url(../images/yellowLed.png);
+}
+
+.redLed {
+    background-image: url(../images/redLed.png);
+}
+
+.blueLed {
+    background-image: url(../images/blueLed.png);
+}
+
 .corner {
     width: 100px;
     height: 100px;
@@ -195,6 +216,7 @@ and open the template in the editor.
     height: 736px;
     float: left;
     border: black 1px solid;
+    background-image: url(../images/center.png);
 }
 /****************************************************************************** TILE LAYOUT */
 .horTile {
@@ -245,10 +267,38 @@ and open the template in the editor.
     margin-top: 20px;
 }
 
-.horTileHead {
+.avatarBox {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+}
+
+.topAvatarBox {
+    top: 20px;
+}
+
+.leftAvatarBox {
+    left: 20px;
+}
+
+.horAssetBox {
     width: 80px;
     height: 20px;
-    float:left;
+    position: absolute;
+}
+
+.verAssetBox {
+    width: 20px;
+    height: 80px;
+    position: absolute;
+}
+
+.rightAssetBox {
+    left: 80px;
+}
+
+.bottomAssetBox {
+    top: 80px;
 }
 /****************************************************************************** CORNER TILES */
 .start {
@@ -331,7 +381,6 @@ and open the template in the editor.
     width: 40px;
     height: 40px;
     float: left;
-    position: relative;
 }
 
 .car {
@@ -378,4 +427,8 @@ and open the template in the editor.
 
 .hotel {
     background-image: url(../images/hotel.png);
+}
+
+.no-close .ui-dialog-titlebar-close {
+  display: none;
 }
