@@ -1,57 +1,78 @@
 var aoChestCards = [
     {
         id: 0,
-        description: "Inheritance: Collect 100",
+        description: "Inheritance, collect 100",
         credits: 100
     },
     {
         id: 1,
-        description: "Bank error in your favor: Collect 200",
+        description: "Bank error in your favor, collect 200",
         credits: 200
     },
     {
         id: 2,
-        description: "Sale of stock: Collect 50",
+        description: "Sale of stock, collect 50",
         credits: 50
     },
     {
         id: 3,
-        description: "Holiday Fund matures: Collect 100",
+        description: "Holiday Fund matures, collect 100",
         credits: 100
     },
     {
         id: 4,
-        description: "Income tax refund: Collect 20",
+        description: "Income tax refund, collect 20",
         credits: 20
     },
     {
         id: 5,
-        description: "Life insurance matures: Collect 100",
+        description: "Life insurance matures, collect 100",
         credits: 100
     },
     {
         id: 6,
-        description: "Consultancy fee: Collect 25",
+        description: "Consultancy fee, collect 25",
         credits: 25
     },
     {
         id: 7,
-        description: "You have won second prize in a beauty contest: Collect 10",
+        description: "You have won second prize in a beauty contest, collect 10",
         credits: 10
     },
     {
         id: 8,
-        description: "School fees: Pay 150",
+        description: "School fees, pay 150",
         credits: -150
     },
     {
         id: 9,
-        description: "Doctor's fees: Pay 50",
+        description: "Doctor's fees, pay 50",
         credits: -50
     },
     {
         id: 10,
-        description: "Hospital fees: Pay 50",
+        description: "Hospital fees, pay 50",
         credits: -50
+    },
+    {
+        id: 11,
+        description: "Advance to GO, collect 200",
+        location: 0
+    },
+    {
+        id: 12,
+        description: "You are assessed for street repairs:<br>For each house pay 40<br>For each house pay 115",
+        house: 40,
+        hotel: 115
+    },
+    {
+        id: 13,
+        description: "Grand Opera Night Opening, collect 50 from every player for opening night seats",
+        players: 50
+    },
+    {
+        id: 14,
+        description: "It is your birthday, collect 10 from each player",
+        players: 10
     }
 ];

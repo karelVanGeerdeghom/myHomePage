@@ -89,15 +89,17 @@ and open the template in the editor.
     height: 100px;
     float: left;
     border-top: black 2px solid;
+    cursor: pointer;
 }
 
 .stats p {
-    margin-left: 25px;
+    margin-left: 15px;
+    margin-right: 15px;
 }
 
 .stats p>span:first-child {
     float: left;
-    width: 75px;
+    width: 70px;
 }
 
 .stats p>span:nth-child(2) {
@@ -124,6 +126,7 @@ and open the template in the editor.
     font-size: 1.2em;
     text-align: center;
     float: left;
+    cursor: pointer;
 }
 
 .die {

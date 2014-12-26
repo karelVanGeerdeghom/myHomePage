@@ -4,13 +4,59 @@ var aoPlayers = [
         name: "Player 1",
         location: 0,
         credits: 1500,
-        avatar: "car"
+        avatar: "car",
+        debt: [0, 0, 0, 0, 0],
+        priority: 0,
+        roll: "yes",
+        buy: "no",
+        pay: "no",
+        draw: "no",
+        dice: 0,
+        redirect: "no"
     },
     {
         id: 1,
         name: "Player 2",
         location: 0,
         credits: 1500,
-        avatar: "dog"
+        avatar: "dog",
+        debt: [0, 0, 0, 0, 0],
+        priority: 0,
+        roll: "yes",
+        buy: "no",
+        pay: "no",
+        draw: "no",
+        dice: 0,
+        redirect: "no"
+    },
+    {
+        id: 2,
+        name: "Player 3",
+        location: 0,
+        credits: 1500,
+        avatar: "boat",
+        debt: [0, 0, 0, 0, 0],
+        priority: 0,
+        roll: "yes",
+        buy: "no",
+        pay: "no",
+        draw: "no",
+        dice: 0,
+        redirect: "no"
+    },
+    {
+        id: 3,
+        name: "Player 4",
+        location: 0,
+        credits: 1500,
+        avatar: "cart",
+        debt: [0, 0, 0, 0, 0],
+        priority: 0,
+        roll: "yes",
+        buy: "no",
+        pay: "no",
+        draw: "no",
+        dice: 0,
+        redirect: "no"
     }
 ];
