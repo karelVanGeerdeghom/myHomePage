@@ -10,215 +10,51 @@ and open the template in the editor.
 .dialog {
     display: none;
 }
+.ui-dialog .ui-dialog-title {
+  text-align: center;
+  width: 100%;
+}
 .content {
+    width: 100%;
     font-family: Arial;
 }
-/****************************************************************************** INFORMATION */
-.info {
-    width: 240px;
-    margin: 20px;
-    float: right;
-    background-color: white;
-    border: black 2px solid;
-}
-
-.infoHead {
-    width: 240px;
-    height: 60px;
-    float: left;
-}
-
-.infoBody {
-    width: 240px;
-    float: left;
-    border-top: black 2px solid;
-    padding-bottom: 15px;
-}
-
-.infoFoot {
-    width: 240px;
-    height: 60px;
-    float: left;
-    border-top: black 2px solid;
-    text-align: center;
-}
-
-.info h3 {
+h3 {
     text-align: center;
     font-weight: bold;
-}
-
-.info p {
-    margin-left: 25px;
-    margin-right: 25px;
-    text-align: center;
-}
-
-.info p>span:first-child {
-    float: left;
-    width: 125px;
-    text-align: left;
-}
-
-.info p>span:nth-child(2) {
-    width: 65px;
-    float: left;
-    text-align: left;
-}
-
-.infoGreen {
-    font-weight: bold;
-    color: green;
-}
-/****************************************************************************** MENU LAYOUT */
-.menu {
-    width: 240px;
-    float: left;
-    margin: 20px;
-    background-color: white;
-    border: black 2px solid;
-}
-
-.players {
-    width: 240px;
-    float: left;
-}
-
-.stats {
-    width: 240px;
-    height: 100px;
-    float: left;
-    border-top: black 2px solid;
-    cursor: pointer;
-}
-
-.stats p {
-    margin-left: 15px;
-    margin-right: 15px;
-}
-
-.stats p>span:first-child {
-    float: left;
-    width: 70px;
-}
-
-.stats p>span:nth-child(2) {
-    width: 140px;
-    float: left;
-}
-
-.dice {
-    width: 120px;
-    height: 60px;
-    float: left;
-}
-
-.action {
-    width: 120px;
-    height: 60px;
-    float: left;
-}
-
-.actionButton {
-    width: 116px;
-    height: 56px;
-    margin: 2px;
-    font-size: 1.2em;
-    text-align: center;
-    float: left;
-    cursor: pointer;
-}
-
-.die {
-    width: 60px;
-    height: 60px;
-    float: left;
-}
-
-.die-1 {
-    background-image: url(../images/die1.png);
-}
-
-.die-2 {
-    background-image: url(../images/die2.png);
-}
-
-.die-3 {
-    background-image: url(../images/die3.png);
-}
-
-.die-4 {
-    background-image: url(../images/die4.png);
-}
-
-.die-5 {
-    background-image: url(../images/die5.png);
-}
-
-.die-6 {
-    background-image: url(../images/die6.png);
 }
 /****************************************************************************** BOARD LAYOUT */
 .board {
     width: 942px;
     height: 942px;
     background-color: #CDE6D0;
-    float: left;
+    margin: 0 auto;
 }
-
-.highLight {
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0.075) inset, 0 0 64px rgba(0, 255, 0, 128);
-    z-index: 10;
-}
-
-.playerHighLight {
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0.075) inset, 0 0 64px rgba(0, 255, 0, 128);
-    z-index: 10;
-}
-
-.greenLed {
-    background-image: url(../images/greenLed.png);
-}
-
-.yellowLed {
-    background-image: url(../images/yellowLed.png);
-}
-
-.redLed {
-    background-image: url(../images/redLed.png);
-}
-
-.blueLed {
-    background-image: url(../images/blueLed.png);
-}
-
 .corner {
     width: 100px;
     height: 100px;
     float: left;
     border: black 1px solid;
     position: relative;
+    background-size: 100%;
 }
-
 .horBar {
     width: 942px;
     height: 102px;
     float: left;
     cursor: pointer;
 }
-
 .verBar {
     width: 102px;
     height: 738px;
     float: left;
     cursor: pointer;
 }
-
 .center {
     width: 736px;
     height: 736px;
     float: left;
     border: black 1px solid;
+    position: relative;
     background-image: url(../images/center.png);
 }
 /****************************************************************************** TILE LAYOUT */
@@ -229,7 +65,6 @@ and open the template in the editor.
     border: black 1px solid;
     position: relative;
 }
-
 .verTile {
     width: 100px;
     height: 80px;
@@ -237,16 +72,15 @@ and open the template in the editor.
     border: black 1px solid;
     position: relative;
 }
-
 .tileBody {
     width: 80px;
     height: 80px;
     float:left;
     position: absolute;
     background-color: #CDE6D0;
+    background-size:100%;
 }
-
-.name {
+.tileName {
     font-family: Arial;
     font-size: .7em;
     text-align: center;
@@ -254,182 +88,447 @@ and open the template in the editor.
     height: 53px;
     margin-top: 2px;
 }
-
-.price {
+.tilePrice {
     font-family: Arial;
     font-size: .7em;
     text-align: center;
     width: 80px;
 }
-
 .tileRight {
     margin-left: 20px;
 }
-
 .tileBottom {
     margin-top: 20px;
 }
-
+/****************************************************************************** MENU LAYOUT */
+.menu {
+    width: 240px;
+    float: left;
+    margin: 20px 0 0 20px;
+    border: black 2px solid;
+    background-color: white;
+}
+.menuAction {
+    width: 120px;
+    height: 60px;
+    float: left;
+}
+.actionButton {
+    width: 116px;
+    height: 56px;
+    margin: 2px;
+    font-size: 1.2em;
+    text-align: center;
+    float: left;
+    cursor: pointer;
+}
+.menuPlayers {
+    width: 240px;
+    float: left;
+}
+.menuPlayersHead {
+    width: 240px;
+    height: 60px;
+    float: left;
+    border-top: black 2px solid;
+}
+.menuPlayerStats {
+    width: 240px;
+    height: 98px;
+    float: left;
+    border-top: black 2px solid;
+    cursor: pointer;
+}
+.menuPlayerStats p {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.menuPlayerStats p>span:first-child {
+    float: left;
+    width: 80px;
+}
+.menuPlayerStats p>span:nth-child(2) {
+    width: 130px;
+    float: left;
+}
+.properties {
+    float:left;
+    width: 184px;
+}
+.propertyBox {
+    float: left;
+    width: 184px;
+    height: 56px;
+}
+.property {
+    float: left;
+    width: 40px;
+    height: 50px;
+    margin: 3px;
+    outline: black 1px solid;
+    position: relative;
+    cursor: pointer;
+    background-color: white;
+}
+.propertyHead {
+    float: left;
+    width: 40px;
+    height: 10px;
+}
+.propertyBody {
+    float: left;
+    width: 40px;
+    height: 40px;
+    background-size: 100%;
+    text-align:center;
+    position: relative;
+}
+.propertyAssets {
+    width: 40px;
+    height: 10px;
+    position: absolute;
+    top: 0;
+}
+.propertyBody p {
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: .6em;
+    z-index: 10;
+}
+.card {
+    float: left;
+    width: 40px;
+    height: 50px;
+    margin: 3px;
+    position: relative;
+    outline: black 1px solid;
+    cursor: pointer;
+    background-color: white;
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+/****************************************************************************** TRADE MENU LAYOUT */
+.trade {
+    width: 736px;
+    height: 736px;
+    float: left;
+    position: absolute;
+    z-index: 10;
+    background-color: #CDE6D0;
+    background-image: url(../images/center.png);
+}
+.tradeMenu {
+    width: 240px;
+    height: 60px;
+    float: left;
+    margin: 20px 0;
+    border: black 2px solid;
+    background-color: white;
+}
+.tradeAvatar {
+    width: 52px;
+    height: 52px;
+    margin: 2px;
+    border: black 2px solid;
+    background-color: white;
+    float: left;
+    background-size: 100%;
+    cursor: pointer;
+}
+.tradeAvatarHidden {
+    display: none;
+}
+.tradeAvatarBox {
+    height: 60px;
+    float: left;
+    margin: 22px 0;
+}
+.tradeAvatarBoxLeft {
+    width: 60px;
+    margin-left: 93px;
+    margin-right: 93px;
+}
+.tradeAvatarBoxLeft .tradeAvatar {
+    float: right;
+}
+.tradeAvatarBoxRight {
+    width: 180px;
+    margin-left: 33px;
+    margin-right: 33px;
+}
+.tradeBar {
+    width: 184px;
+    margin: 0 11px;
+    height: 616px;
+    float: left;
+}
+.tradeBarLeft {
+    margin-left: 30px;
+}
+.tradeBarLeft .property {
+    float: right;
+}
+.tradeBarLeft .card {
+    float: right;
+}
+.tradeBarRight {
+    margin-right: 30px;
+}
+/****************************************************************************** INFORMATION LAYOUT */
+.info {
+    width: 240px;
+    margin: 20px;
+    background-color: white;
+    border: black 2px solid;
+}
+#center .info {
+    float: right;
+}
+#tradeView .info {
+    float: left;
+}
+.infoHead {
+    width: 240px;
+    height: 60px;
+    float: left;
+}
+.infoBody {
+    width: 240px;
+    float: left;
+    border-top: black 2px solid;
+    padding-bottom: 15px;
+}
+.infoFoot {
+    width: 240px;
+    height: 60px;
+    float: left;
+    border-top: black 2px solid;
+    text-align: center;
+}
+.info p {
+    display: block;
+    margin-left: 25px;
+    margin-right: 25px;
+    text-align: center;
+}
+.info p>span:first-child {
+    float: left;
+    width: 125px;
+    text-align: left;
+}
+.info p>span:nth-child(2) {
+    width: 65px;
+    float: left;
+    text-align: left;
+}
+.infoGreen {
+    font-weight: bold;
+    color: green;
+}
+/****************************************************************************** DICE */
+.die {
+    width: 60px;
+    height: 60px;
+    float: left;
+}
+.die-1 {
+    background-image: url(../images/die1.png);
+}
+.die-2 {
+    background-image: url(../images/die2.png);
+}
+.die-3 {
+    background-image: url(../images/die3.png);
+}
+.die-4 {
+    background-image: url(../images/die4.png);
+}
+.die-5 {
+    background-image: url(../images/die5.png);
+}
+.die-6 {
+    background-image: url(../images/die6.png);
+}
+/****************************************************************************** DEMARKATIONS */
+.tileHighLight {
+    box-shadow: 0 0 24px rgba(0, 255, 0, 128);
+    z-index: 11;
+}
+.playerHighLight {
+    box-shadow: 0 0 24px rgba(0, 255, 0, 128);
+    z-index: 11;
+}
+.traderHighLight {
+    box-shadow: 0 0 24px rgba(0, 255, 0, 128);
+    z-index: 11;
+}
+.propertyHighLight {
+    box-shadow: 0 0 16px rgba(0, 255, 0, 128);
+    background-color: #CCFFCC;
+}
+.greenLed {
+    background-image: url(../images/greenLed.png);
+}
+.yellowLed {
+    background-image: url(../images/yellowLed.png);
+}
+.redLed {
+    background-image: url(../images/redLed.png);
+}
+.blueLed {
+    background-image: url(../images/blueLed.png);
+}
+/****************************************************************************** AVATARS */
 .avatarBox {
     width: 80px;
     height: 80px;
     position: absolute;
 }
-
 .topAvatarBox {
     top: 20px;
 }
-
 .leftAvatarBox {
     left: 20px;
 }
-
+.avatar {
+    width: 40px;
+    height: 40px;
+    float: left;
+    background-size: 100%;
+}
+.avatarBig {
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: 25%;
+}
+.car {
+    background-image: url(../images/car.png);
+}
+.hat {
+    background-image: url(../images/hat.png);
+}
+.boat {
+    background-image: url(../images/boat.png);
+}
+.cart {
+    background-image: url(../images/cart.png);
+}
+.dog {
+    background-image: url(../images/dog.png);
+}
+.shoe {
+    background-image: url(../images/shoe.png);
+}
+.iron {
+    background-image: url(../images/iron.png);
+}
+.thimble {
+    background-image: url(../images/thimble.png);
+}
+/****************************************************************************** ASSETS */
 .horAssetBox {
     width: 80px;
     height: 20px;
     position: absolute;
 }
-
 .verAssetBox {
     width: 20px;
     height: 80px;
     position: absolute;
 }
-
 .rightAssetBox {
     left: 80px;
 }
-
 .bottomAssetBox {
     top: 80px;
+}
+.asset {
+    width: 20px;
+    height: 20px;
+    float: left;
+    background-size: 100%;
+}
+.assetMini {
+    width: 10px;
+    height: 10px;
+    float: left;
+    background-size: 100%;
+}
+.house {
+    background-image: url(../images/house.png);
+}
+.hotel {
+    background-image: url(../images/hotel.png);
 }
 /****************************************************************************** CORNER TILES */
 .start {
     background-image: url(../images/go.png);
 }
-
 .cop {
     background-image: url(../images/cop.png);
 }
-
 .park {
     background-image: url(../images/park.png);
 }
-
 .jail {
     background-image: url(../images/jail.png);
 }
 /****************************************************************************** NON-STREET TILES */
-.train {
-    background-image: url(../images/train.png);
-}
-
-.chance {
-    background-image: url(../images/chance.png);
-}
-
 .chest {
     background-image: url(../images/chest.png);
 }
-
-.water {
-    background-image: url(../images/water.png);
+.chance {
+    background-image: url(../images/chance.png);
 }
-
-.electricity {
-    background-image: url(../images/electricity.png);
-}
-
 .tax {
     background-image: url(../images/tax.png);
 }
-
 .luxury {
     background-image: url(../images/luxury.png);
+}
+.train {
+    background-image: url(../images/train.png);
+}
+.water {
+    background-image: url(../images/water.png);
+}
+.electricity {
+    background-image: url(../images/electricity.png);
+}
+.trainMini {
+    background-image: url(../images/trainMini.png);
+}
+.waterMini {
+    background-image: url(../images/waterMini.png);
+}
+.electricityMini {
+    background-image: url(../images/electricityMini.png);
 }
 /****************************************************************************** STREET COLORS */
 .purple {
     background-color:purple;
 }
-
 .lightblue {
     background-color:lightblue;
 }
-
 .violet {
     background-color:violet;
 }
-
 .orange {
     background-color:orange;
 }
-
 .red {
     background-color:red;
 }
-
 .yellow {
     background-color:yellow;
 }
-
 .green {
     background-color:green;
 }
-
 .blue {
     background-color:blue;
-}
-/****************************************************************************** PLAYERS AVATARS */
-.avatar {
-    width: 40px;
-    height: 40px;
-    float: left;
-}
-
-.car {
-    background-image: url(../images/car.png);
-}
-
-.hat {
-    background-image: url(../images/hat.png);
-}
-
-.boat {
-    background-image: url(../images/boat.png);
-}
-
-.cart {
-    background-image: url(../images/cart.png);
-}
-
-.dog {
-    background-image: url(../images/dog.png);
-}
-
-.shoe {
-    background-image: url(../images/shoe.png);
-}
-
-.iron {
-    background-image: url(../images/iron.png);
-}
-
-.thimble {
-    background-image: url(../images/thimble.png);
-}
-/****************************************************************************** ASSETS */
-.asset {
-    width: 20px;
-    height: 20px;
-    float: left;
-}
-
-.house {
-    background-image: url(../images/house.png);
-}
-
-.hotel {
-    background-image: url(../images/hotel.png);
 }
 
 .no-close .ui-dialog-titlebar-close {

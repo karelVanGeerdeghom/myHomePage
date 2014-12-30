@@ -1,13 +1,11 @@
 var aoChestCards = [
     {
         id: 0,
-        description: "Inheritance, collect 100",
-        credits: 100
+        description: "Go to Jail"
     },
     {
         id: 1,
-        description: "Bank error in your favor, collect 200",
-        credits: 200
+        description: "Get out of Jail free!"
     },
     {
         id: 2,
@@ -61,7 +59,7 @@ var aoChestCards = [
     },
     {
         id: 12,
-        description: "You are assessed for street repairs:<br>For each house pay 40<br>For each house pay 115",
+        description: "You are assessed for street repairs:<br>For each house pay 40<br>For each hotel pay 115",
         house: 40,
         hotel: 115
     },
@@ -74,5 +72,15 @@ var aoChestCards = [
         id: 14,
         description: "It is your birthday, collect 10 from each player",
         players: 10
-    }
+    },
+    {
+        id: 15,
+        description: "Inheritance, collect 100",
+        credits: 100
+    },
+    {
+        id: 16,
+        description: "Bank error in your favor, collect 200",
+        credits: 200
+    },
 ];

@@ -12,9 +12,11 @@ var aoTiles = [
         price: 60,
         color: "purple",
         type: "street",
+        groupid: 0,
         name: "Mediterranean Avenue",
         rent: [2, 10, 30, 90, 160, 250],
-        cost: 50
+        cost: 50,
+        owner: 0
     },
     {
         id: 2,
@@ -28,9 +30,11 @@ var aoTiles = [
         price: 60,
         color: "purple",
         type: "street",
+        groupid: 0,
         name: "Baltic<br>Avenue",
         rent: [4, 20, 60, 180, 320, 450],
-        cost: 50
+        cost: 50,
+        owner: 0
     },
     {
         id: 4,
@@ -45,6 +49,7 @@ var aoTiles = [
         title: "Reading Railroad",
         price: 200,
         type: "train",
+        groupid: 8,
         name: "Reading Railroad"
     },
     {
@@ -53,6 +58,7 @@ var aoTiles = [
         price: 100,
         color: "lightblue",
         type: "street",
+        groupid: 1,
         name: "Oriental<br>Avenue",
         rent: [6, 30, 90, 270, 400, 550],
         cost: 50
@@ -69,6 +75,7 @@ var aoTiles = [
         price: 100,
         color: "lightblue",
         type: "street",
+        groupid: 1,
         name: "Vermont Avenue",
         rent: [6, 30, 90, 270, 400, 550],
         cost: 50
@@ -79,13 +86,15 @@ var aoTiles = [
         price: 120,
         color: "lightblue",
         type: "street",
+        groupid: 1,
         name: "Connecticut Avenue",
         rent: [8, 40, 100, 300, 450, 600],
         cost: 50
     },
     {
         id: 10,
-        title: "Jail"
+        title: "Jail",
+        fine: 50
     },
     {
         id: 11,
@@ -93,6 +102,7 @@ var aoTiles = [
         price: 140,
         color: "violet",
         type: "street",
+        groupid: 2,
         name: "St. Charles<br>Place",
         rent: [10, 50, 150, 450, 625, 750],
         cost: 100
@@ -102,6 +112,7 @@ var aoTiles = [
         title: "Electric Company",
         price: 150,
         type: "utility",
+        groupid: 9,
         utility: "electricity",
         name: "Electric Company"
     },
@@ -111,6 +122,7 @@ var aoTiles = [
         price: 140,
         color: "violet",
         type: "street",
+        groupid: 2,
         name: "States<br>Avenue",
         rent: [10, 50, 150, 450, 625, 750],
         cost: 100
@@ -121,6 +133,7 @@ var aoTiles = [
         price: 160,
         color: "violet",
         type: "street",
+        groupid: 2,
         name: "Virginia<br>Avenue",
         rent: [12, 60, 180, 500, 700, 900],
         cost: 100
@@ -130,6 +143,7 @@ var aoTiles = [
         title: "Pennsylvania Railroad",
         price: 200,
         type: "train",
+        groupid: 8,
         name: "Pennsylvania<br>Railroad"
     },
     {
@@ -138,6 +152,7 @@ var aoTiles = [
         price: 180,
         color: "orange",
         type: "street",
+        groupid: 3,
         name: "St. James<br>Place",
         rent: [14, 70, 200, 550, 750, 950],
         cost: 100
@@ -154,6 +169,7 @@ var aoTiles = [
         price: 180,
         color: "orange",
         type: "street",
+        groupid: 3,
         name: "Tennessee Avenue",
         rent: [14, 70, 200, 550, 750, 950],
         cost: 100
@@ -164,6 +180,7 @@ var aoTiles = [
         price: 200,
         color: "orange",
         type: "street",
+        groupid: 3,
         name: "Connecticut Avenue",
         rent: [16, 80, 220, 600, 800, 1000],
         cost: 100
@@ -178,6 +195,7 @@ var aoTiles = [
         price: 220,
         color: "red",
         type: "street",
+        groupid: 4,
         name: "Kentucky Avenue",
         rent: [18, 90, 250, 700, 875, 1050],
         cost: 150
@@ -194,6 +212,7 @@ var aoTiles = [
         price: 220,
         color: "red",
         type: "street",
+        groupid: 4,
         name: "Indiana<br>Avenue",
         rent: [18, 90, 250, 700, 875, 1050],
         cost: 150
@@ -204,6 +223,7 @@ var aoTiles = [
         price: 240,
         color: "red",
         type: "street",
+        groupid: 4,
         name: "Illinois<br>Avenue",
         rent: [20, 100, 300, 750, 925, 1100],
         cost: 150
@@ -213,6 +233,7 @@ var aoTiles = [
         title: "B. & O. Railroad",
         price: 200,
         type: "train",
+        groupid: 8,
         name: "B. & O.<br>Railroad"
     },
     {
@@ -221,6 +242,7 @@ var aoTiles = [
         price: 260,
         color: "yellow",
         type: "street",
+        groupid: 5,
         name: "Atlantic<br>Avenue",
         rent: [22, 110, 330, 800, 975, 1150],
         cost: 150
@@ -231,6 +253,7 @@ var aoTiles = [
         price: 260,
         color: "yellow",
         type: "street",
+        groupid: 5,
         name: "Ventnor<br>Avenue",
         rent: [22, 110, 330, 800, 975, 1150],
         cost: 150
@@ -240,6 +263,7 @@ var aoTiles = [
         title: "Water Company",
         price: 150,
         type: "utility",
+        groupid: 9,
         utility: "water",
         name: "Water<br>Company"
     },
@@ -249,6 +273,7 @@ var aoTiles = [
         price: 280,
         color: "yellow",
         type: "street",
+        groupid: 5,
         name: "Marvin<br>Gardens",
         rent: [24, 120, 360, 850, 1025, 1200],
         cost: 150
@@ -263,6 +288,7 @@ var aoTiles = [
         price: 300,
         color: "green",
         type: "street",
+        groupid: 6,
         name: "Pacific<br>Avenue",
         rent: [26, 130, 390, 900, 1100, 1275],
         cost: 200
@@ -273,6 +299,7 @@ var aoTiles = [
         price: 300,
         color: "green",
         type: "street",
+        groupid: 6,
         name: "North Carolina<br>Avenue",
         rent: [26, 130, 390, 900, 1100, 1275],
         cost: 200
@@ -289,6 +316,7 @@ var aoTiles = [
         price: 320,
         color: "green",
         type: "street",
+        groupid: 6,
         name: "Pennsylvania<br>Avenue",
         rent: [28, 150, 450, 1000, 1200, 1400],
         cost: 200
@@ -298,6 +326,7 @@ var aoTiles = [
         title: "Short Line",
         price: 200,
         type: "train",
+        groupid: 8,
         name: "Short<br>Line"
     },
     {
@@ -312,6 +341,7 @@ var aoTiles = [
         price: 350,
         color: "blue",
         type: "street",
+        groupid: 7,
         name: "Park<br>Place",
         rent: [35, 175, 500, 1100, 1300, 1500],
         cost: 200
@@ -330,6 +360,7 @@ var aoTiles = [
         price: 400,
         color: "blue",
         type: "street",
+        groupid: 7,
         name: "Boardwalk",
         rent: [50, 200, 600, 1400, 1700, 2000],
         cost: 200

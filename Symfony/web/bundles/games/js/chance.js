@@ -1,13 +1,11 @@
 var aoChanceCards = [
     {
         id: 0,
-        description: "Bank pays dividends, collect 50",
-        credits: 50
+        description: "Go to Jail"
     },
     {
         id: 1,
-        description: "Your building loan matures, collect 150",
-        credits: 150
+        description: "Get out of Jail free!"
     },
     {
         id: 2,
@@ -59,5 +57,30 @@ var aoChanceCards = [
         id: 11,
         description: "You have been elected Chairman of the Board, pay each player 50",
         players: -50
+    },
+    {
+        id: 12,
+        description: "Bank pays dividends, collect 50",
+        credits: 50
+    },
+    {
+        id: 13,
+        description: "Your building loan matures, collect 150",
+        credits: 150
+    },
+    {
+        id: 14,
+        description: "Advance to nearest Railroad and pay owner twice the rent. If Railroad is unowned, you may buy it from the Bank.",
+        redirect: "train"
+    },
+    {
+        id: 15,
+        description: "Advance to nearest Railroad and pay owner twice the rent. If Railroad is unowned, you may buy it from the Bank.",
+        redirect: "train"
+    },
+    {
+        id: 16,
+        description: "Advance to nearest Utility and pay owner twice the rent. If Utility is unowned, you may buy it from the Bank.",
+        redirect: "utility"
     }
 ];
