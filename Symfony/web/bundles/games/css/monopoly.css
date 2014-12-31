@@ -257,6 +257,10 @@ h3 {
     margin-left: 33px;
     margin-right: 33px;
 }
+.tradeAvatarFloat {
+    height: 60px;
+    margin: 0 auto;
+}
 .tradeBar {
     width: 184px;
     margin: 0 11px;

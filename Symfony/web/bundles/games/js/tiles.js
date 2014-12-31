@@ -15,8 +15,7 @@ var aoTiles = [
         groupid: 0,
         name: "Mediterranean Avenue",
         rent: [2, 10, 30, 90, 160, 250],
-        cost: 50,
-        owner: 0
+        cost: 50
     },
     {
         id: 2,
@@ -33,8 +32,7 @@ var aoTiles = [
         groupid: 0,
         name: "Baltic<br>Avenue",
         rent: [4, 20, 60, 180, 320, 450],
-        cost: 50,
-        owner: 0
+        cost: 50
     },
     {
         id: 4,
