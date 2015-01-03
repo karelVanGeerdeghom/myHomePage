@@ -1,6 +1,7 @@
-var aPlayers = [0, 1, 2, 3];
+var aPlayers = [];
 var aChestCards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 var aChanceCards = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+var aAvatars = ["car", "dog", "cart", "boat", "shoe", "hat", "thimble", "iron"];
 var sTradeMode = "";
 
 $(function() {
@@ -10,14 +11,15 @@ $(function() {
     createMenu();
     shuffleCards(aChanceCards);
     shuffleCards(aChestCards);
-});
+})
 
 function createBoard(container) {
     var eModalQuitDialog = $('<div id="modalQuitDialog" class="dialog" title="Quit Game?"></div>');
-    var eModalChanceDialog = $('<div id="modalChanceDialog" class="dialog" title="Warning!"></div>');
-    var eModalChestDialog = $('<div id="modalChestDialog" class="dialog" title="Warning!"></div>');
     var eModalJailDialog = $('<div id="modalJailDialog" class="dialog" title="Warning!"></div>');
     var eModalBankruptDialog = $('<div id="modalBankruptDialog" class="dialog" title="Bankrupt!"></div>');
+    var eModalSellDialog = $('<div id="modalSellDialog" class="dialog" title="Warning!"></div>');
+    var eModalChanceDialog = $('<div id="modalChanceDialog" class="dialog" title="Warning!"></div>');
+    var eModalChestDialog = $('<div id="modalChestDialog" class="dialog" title="Warning!"></div>');
     var eDiceDialog = $('<div id="diceDialog" class="dialog" title="Doubles!"></div>');
     var eChanceCardDialog = $('<div id="chanceCardDialog" class="dialog" title="Chance Card"></div>');
     var eChestCardDialog = $('<div id="chestCardDialog" class="dialog" title="Community Chest Card"></div>');
@@ -42,10 +44,11 @@ function createBoard(container) {
         .append(eRightBar)
         .append(eBottomBar);
     container.append(eModalQuitDialog)
-        .append(eModalChanceDialog)
-        .append(eModalChestDialog)
         .append(eModalJailDialog)
         .append(eModalBankruptDialog)
+        .append(eModalSellDialog)
+        .append(eModalChanceDialog)
+        .append(eModalChestDialog)
         .append(eDiceDialog)
         .append(eChanceCardDialog)
         .append(eChestCardDialog)
@@ -154,13 +157,16 @@ function createBoard(container) {
                 showPlayerInfo();
                 showPlayerSelected(aoTiles[nId].owner);
                 showPlayerAssets(aoTiles[nId].owner);
+                showPlayerOwned(aoTiles[nId].owner, $('#center'));
             }// if not in trade mode //
             else {
                 if (aoTiles[nId].owner != aPlayers[0]) {
                     showTraderSelected(aoTiles[nId].owner, "Right");
                     showPlayerOwned(aoTiles[nId].owner, $('#tradeRight'));
+                    $('#tradeCreditsLeft').css('display', 'block');
+                    $('#tradeCreditsRight').css('display', 'block');
                     $('#tradeRight').find('#property' + nId).addClass('propertyHighLight');
-                }// if owner is not trade primary //
+                }// if owner is trade secondary //
                 else {
                     $('#tradeLeft').find('#property' + nId).addClass('propertyHighLight');
                 }// if owner is trade primary //
@@ -169,6 +175,8 @@ function createBoard(container) {
         else {
             $('#tradeAvatarBoxRight').find('.traderHighLight').removeClass('traderHighLight');
             $('#tradeRight').find('.properties').remove();
+            $('#tradeCreditsLeft').css('display', 'none');
+            $('#tradeCreditsRight').css('display', 'none');
         }// if tile has no owner
     });
 }/////////////////////////////// CREATE BOARD //
@@ -180,7 +188,7 @@ function createMenu() {
 
     var eDieOne = $('<div id="dieOne" class="die die-' + Math.floor(Math.random() * 6 + 1) + '"></div>');
     var eDieTwo = $('<div id="dieOne" class="die die-' + Math.floor(Math.random() * 6 + 1) + '"></div>');
-    var eActionButton = $('<button type="button" id="actionButton" class="actionButton">Start Game</button>');
+    var eActionButton = $('<button type="button" id="actionButton" class="actionButton">Play Game</button>');
 
     eCenter.append(eMenu);
     eMenu.append(eDice);
@@ -189,10 +197,101 @@ function createMenu() {
     eDice.append(eDieTwo);
     eAction.append(eActionButton);
 
-    $(eActionButton).click(function() {
-        startGame();
-    });
+    $(eActionButton).click(function() { playGame(); });
 }////////////////////////////////////////// CREATE MENU //
+
+function playGame() {
+    var eCenter = $('#center');
+    var eStartMenu = $('<div id="startMenu" class="startMenu"></div>');
+    eCenter.append(eStartMenu);
+    for (var i = 0; i < 6; i++) {
+        var eStartMenuPlayer = $('<div id="startMenuPlayer' + i + '" class="startMenuPlayer"></div>');
+        var eStartMenuNavLeft = $('<div class="startMenuNav"></div>');
+        var eStartMenuNavLeftDo = $('<div id="startMenuNavLeft' + i + '" class="startMenuNavButton left"></div>');
+        var eStartMenuAvatar = $('<div id="startMenuAvatar' + i + '" class="chance"></div>');
+        var eStartMenuNavRight = $('<div class="startMenuNav"></div>');
+        var eStartMenuNavRightDo = $('<div id="startMenuNavRight' + i + '" class="startMenuNavButton right"></div>');
+        var eStartMenuDice = $('<div id="startMenuDice' + i + '" class="startMenuDice"></div>');
+        eStartMenu.append(eStartMenuPlayer);
+        eStartMenuPlayer.append(eStartMenuNavLeft)
+            .append(eStartMenuAvatar)
+            .append(eStartMenuNavRight)
+            .append(eStartMenuDice);
+        eStartMenuNavLeft.append(eStartMenuNavLeftDo);
+        eStartMenuNavRight.append(eStartMenuNavRightDo);
+    }// create avatar choice //
+    $("div[id^='startMenuNav']").click(function() {
+        var nId = parseInt(this.id.match(/\d+/)[0]);
+        var sClass = $('#startMenuAvatar' + nId).attr('class');
+        $('#startMenuAvatar' + nId).removeClass();
+
+        if (this.id.match(/Left/gi)) { var sSide = "Left"; }
+        if (this.id.match(/Right/gi)) { var sSide = "Right"; }
+        switch(sSide) {
+            case "Left":
+                aAvatars.unshift(aAvatars.pop());
+                if (aAvatars[0] == sClass) { aAvatars.unshift(aAvatars.pop()); }
+                $('#startMenuAvatar' + nId).addClass(aAvatars[0]);
+                aAvatars.splice(0, 1);
+                if (!(sClass == "chance" && aAvatars.indexOf("chance") >= 0)) { aAvatars.unshift(sClass); }
+            break;
+            case "Right":
+                if (aAvatars[0] == sClass) { aAvatars.push(aAvatars.shift()); }
+                $('#startMenuAvatar' + nId).addClass(aAvatars[0]);             
+                aAvatars.splice(0, 1);
+                if (!(sClass == "chance" && aAvatars.indexOf("chance") >= 0)) { aAvatars.push(sClass); }
+            break;
+        }// click left or right arrows //
+        if (aAvatars.indexOf("chance") == -1) { aAvatars.push("chance"); }
+        aoPlayers[nId].avatar = $('#startMenuAvatar' + nId).attr('class');
+    });// eventlistener avatar navigation buttons //
+
+    var eAction = $('#action');
+    var eActionButton = $('<button type="button" id="actionButton" class="actionButton">Roll Dice</button>');
+    eAction.empty();
+    eAction.append(eActionButton);
+    $(eActionButton).click(function() {
+        if (6 - $('#startMenu').find('.chance').length >= 2) {
+            var aThrows = [];
+            var aPlaying = [];
+            $("div[id^='startMenuNav']").remove();
+            for (var i = 0; i < 6; i++) {
+                var sSet = "no";
+                if ($('#startMenuAvatar' + i).attr('class') != "chance") {
+                    do {
+                        $('#startMenuDice' + i).empty();
+                        var nTotal = 0;
+                        for (var j = 0; j < 2; j++) {
+                            var nDie = Math.floor(Math.random() * 6 + 1);
+                            var eStartMenuDie = $('<div class="startMenuDie die-' + nDie + '"></div>');
+                            nTotal += nDie;
+                            $('#startMenuDice' + i).append(eStartMenuDie);
+                        }// throws //
+                        if (aThrows.indexOf(nTotal) == -1) {
+                            aThrows.push(nTotal);
+                            sSet = "yes";
+                            aPlaying.push(i);
+                        }
+                    }// keep throwing until each player has a different throw //
+                    while (sSet == "no");
+                }// if not still default avatar choice //
+                else { $('#startMenuPlayer' + i).remove(); }// remove unchosen players //
+            }// go over avatar choices //
+            var aPosition = aThrows.slice(0);
+            aPosition.sort(sortNumber);
+            for (var i = 0; i < aPosition.length; i++) { aPlayers[aPosition.indexOf(aThrows[i])] = aPlaying[i]; }
+            var eAction = $('#action');
+            var eActionButton = $('<button type="button" id="actionButton" class="actionButton">Start Game</button>');
+            eAction.empty();
+            eAction.append(eActionButton);
+            $(eActionButton).click(function() {
+                eStartMenu.remove();
+                startGame();
+            });
+        }// make certain there are enough players //
+        else { showDialog("You need to have at least 2 players to play a game!", "warning"); }
+    });// eventlistener throw dice to decide play order //
+}
 function startGame() {
 //    console.log("startGame");
     var eCenter = $('#center');
@@ -213,22 +312,15 @@ function startGame() {
     eQuit.append(eQuitButton);
     $(eTradeButton).click(function() {
         startTrade();
-    });
+    });// trade event listener //
     $(eQuitButton).click(function() {
-        quitGame();
-    });
-    
-    var eStartAvatarBox = $('#avatarBox0');
-    for (var i = 0; i < aPlayers.length; i++) {
-        var sAvatar = aoPlayers[aPlayers[i]].avatar;
-        var eAvatar = $('<div id="player' + aPlayers[i] + '" class="avatar ' + sAvatar + '"></div>');
-        eStartAvatarBox.append(eAvatar);
-    }
-    
+        exitGame();
+    });// quit event listener //
+    showAvatars();
     aPlayers.unshift(aPlayers.pop());
     playerNext();
 }/////////////////////////////////////////// START GAME //
-function quitGame() {
+function exitGame() {
     var nPlayer = aPlayers[0];
     var eModalDialog = $('#modalQuitDialog');
     eModalDialog.empty()
@@ -257,6 +349,7 @@ function startTrade() {
     $('.avatar').remove();
     $('.tileHighLight').removeClass("tileHighLight");
     $("div[id^='tile']").removeClass("greenLed").removeClass("yellowLed").removeClass("redLed").removeClass("blueLed");
+    
     var eCenter = $('#center');
     var eTrade = $('<div id="tradeView" class="trade"></div>');
     var eTradeAvatarBoxLeft = $('<div id="tradeAvatarBoxLeft" class="tradeAvatarBox tradeAvatarBoxLeft"></div>');
@@ -268,6 +361,8 @@ function startTrade() {
     var eTradeInfoHead = $('<div id="infoHead" class="infoHead"><h3>Trading Rules</h3></div>');
     var eTradeInfoBody = $('<div id="infoBody" class="infoBody"><p>Unimproved properties, railroads, utilities (but not buildings) and \'Get out of Jail\'-cards may be traded. However, no property can be sold to another player if buildings are standing on any properties of that color-group.</p></div>');
     var eTradeBarRight = $('<div id="tradeRight" class="tradeBar tradeBarRight"></div>');
+    var eTradeCreditsLeft = $('<div id="tradeCreditsLeft" class="tradeCredits"></div>');
+    var eTradeCreditsRight = $('<div id="tradeCreditsRight" class="tradeCredits"></div>');
     eCenter.append(eTrade)
     eTrade.append(eTradeAvatarBoxLeft)
         .append(eTradeMenu)
@@ -278,6 +373,26 @@ function startTrade() {
     eTradeInfo.append(eTradeInfoHead)
         .append(eTradeInfoBody);
     eTradeAvatarBoxRight.append(eTradeAvatarBoxRightFloat);
+    eTradeBarLeft.append(eTradeCreditsLeft);
+    eTradeBarRight.append(eTradeCreditsRight);
+    for (var i = 0; i < 4; i++) {
+        var eTradeCreditsDigitLeft = $('<div id="changeUpLeft' + i + '" class="tradeCreditChange up"></div>');
+        var eTradeCreditsDigitRight = $('<div id="changeUpRight' + i + '" class="tradeCreditChange up"></div>');
+        eTradeCreditsLeft.append(eTradeCreditsDigitLeft);
+        eTradeCreditsRight.append(eTradeCreditsDigitRight);
+    }// amount up //
+    for (var i = 0; i < 4; i++) {
+        var eTradeCreditsDigitLeft = $('<div class="tradeCreditDigit number"><p id="creditLeft' + i + '">0</p></div>');
+        var eTradeCreditsDigitRight = $('<div class="tradeCreditDigit number"><p id="creditRight' + i + '">0</p></div>');
+        eTradeCreditsLeft.append(eTradeCreditsDigitLeft);
+        eTradeCreditsRight.append(eTradeCreditsDigitRight);
+    }// amount //
+    for (var i = 0; i < 4; i++) {
+        var eTradeCreditsDigitLeft = $('<div id="changeDownLeft' + i + '" class="tradeCreditChange down"></div>');
+        var eTradeCreditsDigitRight = $('<div id="changeDownRight' + i + '" class="tradeCreditChange down"></div>');
+        eTradeCreditsLeft.append(eTradeCreditsDigitLeft);
+        eTradeCreditsRight.append(eTradeCreditsDigitRight);
+    }// amount down //
 
     var eExitButton = $('<button type="button" id="exitButton" class="actionButton">Exit</button>');
     eTradeMenu.append(eExitButton);
@@ -289,7 +404,6 @@ function startTrade() {
     eTradeMenu.append(eTradeButton);
     $(eTradeButton).click(function() {
         doTrade();
-        exitTrade();
     });
     
     var eAvatarLeft = $('<div id="avatarLeft' + aPlayers[0] + '" class="tradeAvatar ' + aoPlayers[aPlayers[0]].avatar + '"></div>');
@@ -298,7 +412,9 @@ function startTrade() {
         var eAvatarRight = $('<div id="avatarRight' + aPlayers[i] + '" class="tradeAvatar ' + aoPlayers[aPlayers[i]].avatar + '"></div>');
         eTradeAvatarBoxRightFloat.append(eAvatarRight);
     }
-    eTradeAvatarBoxRightFloat.css('width', 60 * (aPlayers.length - 1));
+    eTradeAvatarBoxRightFloat.css('width', 48 * (aPlayers.length - 1));
+    eTradeCreditsLeft.css('display', 'none');
+    eTradeCreditsRight.css('display', 'none');
     
     showPlayerOwned(aPlayers[0], $('#tradeLeft'));
     $('#avatarRight' + aPlayers[0]).remove();
@@ -306,9 +422,24 @@ function startTrade() {
     
     $("div[id^='avatarRight']").click(function () {
         var nId = parseInt(this.id.match(/\d+/)[0]);
+        eTradeCreditsLeft.css('display', 'block');
+        eTradeCreditsRight.css('display', 'block');
         showPlayerOwned(nId, $('#tradeRight'));
         showTraderSelected(nId, "Right");
     });
+    $("div[id^='change']").click(function () {
+        var nId = parseInt(this.id.match(/\d+/)[0]);
+        if (this.id.match(/Left/gi)) { var sSide = "Left"; }
+        if (this.id.match(/Right/gi)) { var sSide = "Right"; }
+        if (this.id.match(/Up/gi)) { var sHow = "Up"; }
+        if (this.id.match(/Down/gi)) { var sHow = "Down"; }
+        var nAmount = parseInt($('#credit' + sSide + nId).text());
+        switch (sHow) {
+            case "Up": if (nAmount < 9) { $('#credit' + sSide + nId).text(nAmount + 1); } break;
+            case "Down": if (nAmount > 0) { $('#credit' + sSide + nId).text(nAmount - 1) }; break;
+        }
+    });
+    
 }
 function exitTrade() {
     sTradeMode = "";
@@ -323,14 +454,48 @@ function doTrade() {
     if ($('.traderHighLight').attr('id')) {
         var nPlayer = aPlayers[0];
         var nTrader = $('.traderHighLight').attr('id').match(/\d+/)[0];
-        $('#tradeLeft').find('.propertyHighLight').each(function() {
-            var nId = this.id.match(/\d+/)[0];
-            aoTiles[nId].owner = nTrader;
-        });
-        $('#tradeRight').find('.propertyHighLight').each(function() {
-            var nId = this.id.match(/\d+/)[0];
-            aoTiles[nId].owner = nPlayer;
-        });
+        var nLeft = 0;
+        var nRight = 0;
+        
+        for (var i = 0; i < 4; i++) {
+            nRight += (parseInt($('#creditRight' + i).text()) * Math.pow(10, (3 - i)));
+            nLeft += (parseInt($('#creditLeft' + i).text()) * Math.pow(10, (3 - i)));
+        }
+        if ($('.propertyHighLight').length > 0 && aoPlayers[nPlayer].credits >= nLeft && aoPlayers[nTrader].credits >= nRight) {
+            aoPlayers[nPlayer].credits -= nLeft;
+            aoPlayers[nPlayer].credits += nRight;
+            aoPlayers[nTrader].credits += nLeft;
+            aoPlayers[nTrader].credits -= nRight;
+            $('#tradeLeft').find('.propertyHighLight').each(function() {
+                var nId = this.id.match(/\d+/)[0];
+                var sId = this.id.match(/card/gi);
+                if (sId == "card") {
+                    aoPlayers[nPlayer].cards[nId] = 0;
+                    aoPlayers[nTrader].cards[nId] = 1;
+                }
+                else { aoTiles[nId].owner = nTrader; }
+            });
+            $('#tradeRight').find('.propertyHighLight').each(function() {
+                var sId = this.id.match(/card/gi);
+                var nId = this.id.match(/\d+/)[0];
+                if (sId == "card") {
+                    aoPlayers[nPlayer].cards[nId] = 1;
+                    aoPlayers[nTrader].cards[nId] = 0;
+                }
+                else { aoTiles[nId].owner = nPlayer; }
+            });
+            exitTrade();
+        }
+        else {
+            var sText = "";
+            if ($('.propertyHighLight').length == 0) { sText += "You can only trade for cards or properties!<br>"; }
+            if (aoPlayers[nPlayer].credits < nLeft) { sText += aoPlayers[nPlayer].name + ", you don't have enough credits for that!<br>"; }
+            if (aoPlayers[nTrader].credits < nRight) { sText += aoPlayers[nTrader].name + ", you don't have enough credits for that!"; }
+            showDialog(sText, "warning");
+        }
+    }
+    else {
+        showDialog("You need to choose someone to trade with!", "warning");
     }
 }
 
@@ -347,7 +512,7 @@ function playerTurn() {
     var sChest = aoPlayers[nPlayer].chest;
     var sPay = aoPlayers[nPlayer].pay;
     var nJail = aoPlayers[nPlayer].jail;
-    
+
     if (sStart == "yes") {
         if (sRoll == "yes") {
             var eActionButton = $('<button type="button" id="actionButton" class="actionButton">Roll Dice</button>');
@@ -359,7 +524,7 @@ function playerTurn() {
                 if (aoPlayers[nPlayer].doubles > 0) { showDialog('You have rolled doubles, throw again!', 'dice'); }
                 aoPlayers[nPlayer].to = (nLocation + aoPlayers[nPlayer].dice) % 40;
                 playerMove();
-            });
+            });// throw dice event listener //
         }// if player is allowed to throw dice //
         if (nJail > 0) {
             var eActionButton = $('<button type="button" id="actionButton" class="actionButton">Roll Dice</button>');
@@ -376,7 +541,7 @@ function playerTurn() {
                     playerReset();
                     showDialog('You have rolled doubles, you can leave jail!', 'dice');
                     playerMove();
-                }
+                }// if allowed to leave jail by throwing doubles //
                 else {
                     aoPlayers[nPlayer].start = "no";
                     aoPlayers[nPlayer].jail += 1;
@@ -384,7 +549,7 @@ function playerTurn() {
                         showDialog('You haven\'t rolled doubles, you must remain in jail!', 'jail');
                         showTileInfo(10);
                         playerTurn();
-                    }
+                    }// if third turn in jail //
                     else {
                         showDialog('You haven\'t rolled doubles, you must pay the fine!', 'jail');
                         showTileInfo(10);
@@ -393,19 +558,19 @@ function playerTurn() {
                         eAction.append(eActionButton);
                         $(eActionButton).click(function() {
                             payFine();
-                        });
-                    }
-                }
-            });
+                        });// pay fine event listener //
+                    }// if still can try to throw doubles next round //
+                }// has to stay in jail for not throwing doubles //
+            });// throw dice to get out of jail event listener //
         }// if player is in jail //
         if (nPriority > 0) {
-            if (nPriority > nWealth) { playerBankrupt(); }
+            if (nPriority > nWealth) { playerBankrupt(); }// if debt outweighs total asset value of player //
             var eActionButton = $('<button type="button" id="actionButton" class="actionButton">Pay ' + nPriority +  '</button>');
             eAction.empty();
             eAction.append(eActionButton);
             $(eActionButton).click(function() {
                 payDebt(nPriority);
-            });
+            });// pay debt event listener //
         }// if player has priority debt //
     }// beginning of turn phase //
     else {
@@ -426,36 +591,46 @@ function playerTurn() {
                 if (aoPlayers[nPlayer].doubles == 0) {
                     aoPlayers[nPlayer].to = (nLocation + aoPlayers[nPlayer].dice) % 40;
                     playerMove();
-                }
+                }// if not thrown doubles after rethrow //
                 if (aoPlayers[nPlayer].doubles == 1 || aoPlayers[nPlayer].doubles == 2) {
                     showDialog('You have rolled doubles, throw again!', 'dice');
                     aoPlayers[nPlayer].to = (nLocation + aoPlayers[nPlayer].dice) % 40;
                     playerMove();
-                }// doubles //
+                }// doubles again after first throw //
                 if (aoPlayers[nPlayer].doubles == 3) {
                     playerJail('You have been sent to Jail for rolling three doubles in a row!');
                     showAvatars();
                     showAll(aoPlayers[nPlayer].location, nPlayer);
                     playerTurn();
                 }// three doubles in a row //
-            });
+            });// throw dice event listener //
         }// if player can throw dice again //
         if (sPay == "yes") {
             setDebt();
             var nDebt = checkPlayerDebt() + checkBankDebt();
-            if (nDebt > nWealth) { playerBankrupt(); }
+            if (nDebt > nWealth) { playerBankrupt(); }// if debt outweight total asset value //
             if (nDebt > 0) { 
                 var eActionButton = $('<button type="button" id="actionButton" class="actionButton">Pay ' + nDebt +  '</button>');
                 eAction.empty();
                 eAction.append(eActionButton);
                 $(eActionButton).click(function() {
                     payDebt(nDebt);
-                });
+                });// pay debt event listener //
             }// if player has debt //   
         }// if player is allowed to potentially pay debt //
         if (sChest == "yes" && aoTiles[nLocation].type == "chest") { playerDraw(0); }// if player landed on community chest //
         if (sChance == "yes" && aoTiles[nLocation].type == "chance") { playerDraw(1); }// if player landed on chance //
     }// after first throw phase //
+    
+    if (aPlayers.length == 1) {
+        showDialog(aoPlayers[aPlayers[0]].name + ", you have won the game!", "warning");
+        var eActionButton = $('<button type="button" id="actionButton" class="actionButton">Quit Game</button>');
+        eAction.empty();
+        eAction.append(eActionButton);
+        $(eActionButton).click(function() {
+            location.reload();
+        });
+    }
 }///////////////////////////////////////// PLAY TURN //
 function playerThrow() {
 //    console.log("playerThrow");
@@ -475,32 +650,32 @@ function playerThrow() {
     if (nDieOne == nDieTwo) {////////////////////////////////////////////////// if rolled doubles //
         aoPlayers[nPlayer].roll = "yes";
         aoPlayers[nPlayer].doubles += 1;
-    }
+    }// if doubles //
     else {///////////////////////////////////////////////////////////////////// if not rolled doubles //
         aoPlayers[nPlayer].roll = "no";
         aoPlayers[nPlayer].doubles = 0;
-    }
+    }// if not doubles //
 }///////////////////////////////////////// THROW DICE //
 function playerEnd() {
     var nPlayer = aPlayers[0];
     var nDebt = checkPlayerDebt();
     var nDebtees = 0;
     var nDebtee;
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 6; i++) {
         if (aoPlayers[nPlayer].debt[i] > 0) {
             nDebtees += 1;
             nDebtee = i;
-        }
+        }// if player has debt //
     }// # of debtees //
     
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 6; i++) {
         if (nDebtees > 1) {
             if (Math.floor(checkWealth(nPlayer) / (aPlayers.length - 1)) >= aoPlayers[nPlayer].debt[i]) {
                 aoPlayers[i].credits += aoPlayers[nPlayer].debt[i];
-            }
+            }// if debt outweight total asset value //
             else {
                 aoPlayers[i].credits += Math.floor(checkWealth(nPlayer) / (aPlayers.length - 1));
-            }
+            }// if debt within player value //
         }// if more than one debtee //
         if (nDebtees == 1) {
             if (aoPlayers[nPlayer].debt[i] != 0) {
@@ -520,16 +695,16 @@ function playerEnd() {
             if (nDebt >= checkValue(i)) {
                 aoTiles[i].owner = nDebtee;
                 nDebt -= checkValue(i);
-            }
+            }// if still debt after giving this tile //
             else {
                 aoPlayers[nDebtee].credits += nDebt;
                 nDebt = 0;
-            }
-        }
+            }// if this tile covers the last of the debt //
+        }// if one debtee and debtor owns this tile //
         if (aoTiles[i].owner == nPlayer) {
             delete aoTiles[i].assets;
             delete aoTiles[i].owner;
-        }
+        }// delete ownership and assets of tile //
     }// go over tiles, transfer/remove ownership/assets //
     
     aPlayers.splice(0, 1);
@@ -560,13 +735,13 @@ function playerMove() {
     var nTo = aoPlayers[nPlayer].to;
     $('#action').empty();
 
-    if (nLocation != nTo) { setTimeout(showMovement, 40); }
+    if (nLocation != nTo) { setTimeout(showMovement, 40); }// if still moving //
     else {
-        if (nTo == 30) { playerJail('You have been sent to Jail because you landed on Go to Jail!'); }
+        if (nTo == 30) { playerJail('You have been sent to Jail because you landed on Go to Jail!'); }// if landed on go to jail //
         showAvatars();
         showAll(aoPlayers[nPlayer].location, nPlayer);
         playerTurn();
-    }
+    }// if arrived at destination //
 }////////////////////////////////////////// MOVE PLAYER //
 function playerJail(text) {
     var nPlayer = aPlayers[0];
@@ -585,9 +760,7 @@ function playerJail(text) {
             dialogClass: "no-close",
             buttons: [{
                 text: "OK",
-                click: function() {
-                    $(this).dialog("close");
-                }
+                click: function() { $(this).dialog("close"); }
             }]
         });
 }////////////////////////////////////// SEND PLAYER TO JAIL //
@@ -611,7 +784,7 @@ function playerDraw(card) {
             if (nCard != 1) { aChanceCards.push(nCard); }
             aoPlayers[nPlayer].chance = "no"
         break;
-    }
+    }// switch between chance or community chest card //
     eModalDialog.empty()
         .append('<p>You can draw a ' + sCard + ' card!</p>')
         .dialog({
@@ -627,7 +800,7 @@ function playerDraw(card) {
                         showPlayerInfo();
                     } // card says collect credits //
                     if (aoCards[nCard].credits < 0) {
-                        aoPlayers[nPlayer].debt[4] = Math.abs(aoCards[nCard].credits);
+                        aoPlayers[nPlayer].debt[6] = Math.abs(aoCards[nCard].credits);
                         playerTurn();
                     }// card says pay credits //
                     if (aoCards[nCard].location >= 0) {
@@ -658,12 +831,12 @@ function playerDraw(card) {
                         }
                         nTotal = nHouses * aoCards[nCard].house + nHotels * aoCards[nCard].hotel;
                         if (nTotal > 0) {
-                            aoPlayers[nPlayer].debt[4] = nTotal;
+                            aoPlayers[nPlayer].debt[6] = nTotal;
                             playerTurn();
                         }
                     }// card says pay credits for houses/hotels //
                     if (aoCards[nCard].players < 0) {
-                        for (var i = 0; i < 4; i++) {
+                        for (var i = 0; i < 6; i++) {
                             if (i != nPlayer && aPlayers.indexOf(i) != -1) {
                                 aoPlayers[nPlayer].debt[i] = Math.abs(aoCards[nCard].players);
                             }
@@ -727,12 +900,12 @@ function playerNext() {
     for (var i = 0; i < aPlayers.length; i++) {        
         var eStats = $('<div id="stats' + aPlayers[i] + '" class="menuPlayerStats"></div>');
         ePlayers.append(eStats);
-    }
+    }// go over players //
     $("div[id^='stats']").click(function() {
         var nId = parseInt(this.id.match(/\d+/)[0]);
         showAll(aoPlayers[nId].location, nId);
         showPlayerOwned(nId, $('#center'));
-    })
+    })// player event listener //
     
     showDialog('It\'s ' + aoPlayers[nPlayer].name + '\'s turn!', 'turn');
     showAll(nLocation, nPlayer);
@@ -763,6 +936,7 @@ function showAll(id, player) {
     showTileAssets();
     showTileSelected(id);
     showPlayerInfo();
+    showBank();
     showPlayerOwned(player, $('#center'))
     showPlayerAssets(player);
     showPlayerSelected(player);
@@ -774,13 +948,21 @@ function showMovement() {
         aoPlayers[nPlayer].location = 0;
         aoPlayers[nPlayer].credits += 200;
         showDialog('Collected 200', 'go');
-    }
+    }// passing GO //
     else { aoPlayers[nPlayer].location += 1; }
     
     showTileSelected(aoPlayers[nPlayer].location);
     showAvatars();
     playerMove();
 }//////////////////////////////////////// SHOW PLAYER MOVEMENT //
+function showBank() {
+    var eMenu = $('#menu');
+    var eBank = $('#bank');
+    eBank.remove();
+    eBank = $('<div id="bank" class="bank"><span><p>Bank:</p></span><span><span class="asset hotel"></span><span><p>x' + aoTiles[0].bank[0] + '</p></span></span><span><span class="asset house"></span><span><p>x' + aoTiles[0].bank[1] + '</p></span></span>');
+
+    eMenu.append(eBank);
+}
 function showTileInfo(id) {
 //    console.log(" -showTileInfo");
     $('.infoGreen').removeClass("infoGreen");
@@ -973,15 +1155,15 @@ function showTileAssets() {
             if (aoTiles[i].assets == 5) {
                 var eHotel = $('<div class="asset hotel"></div>');
                 $('#assetBox' + i).append(eHotel);
-            }
+            }// if hotel //
             else {
                 for (var n = 0; n < aoTiles[i].assets; n++) {
                     var eHouse = $('<div class="asset house"></div>');
                     $('#assetBox' + i).append(eHouse);
-                }
-            }
-        }
-    }
+                }// show each house //
+            }// if houses //
+        }// if tile has assets //
+    }// go over tiles //
 }////////////////////////////////////// SHOW HOTELS/HOUSES ON TILES //
 function showTileSelected(id) {
 //    console.log(" -showTileSelected");
@@ -998,9 +1180,9 @@ function showPlayerInfo() {
         var sAvatar = aoPlayers[aPlayers[i]].avatar;
         
         var eStats = $('#stats' + aPlayers[i]);
-        var eName = $('<p><span>Player: </span><span>' + sName + '</span></p>');
-        var eLocation = $('<p><span>Location: </span><span>' + aoTiles[nLocation].title + '</span></p>');
-        var eCredits = $('<p><span>Credits: </span><span>' + nCredits + ' (' + nWealth + ')</span></p>');
+        var eName = $('<p>' + sName + '</p>');
+        var eLocation = $('<p>' + aoTiles[nLocation].title + '</p>');
+        var eCredits = $('<p>' + nCredits + '</p>');
 
         eStats.empty()
             .addClass(sAvatar)
@@ -1008,7 +1190,7 @@ function showPlayerInfo() {
             .append(eName)
             .append(eLocation)
             .append(eCredits);
-    }
+    }// go over players //
 }////////////////////////////////////// SHOW PLAYER INFO //
 function showPlayerOwned(player, element) {
 //    $('.properties').remove();
@@ -1021,39 +1203,41 @@ function showPlayerOwned(player, element) {
     for (var i = 0; i < aoTiles.length; i++) { if (aoTiles[i].owner == player) { aOwned[aoTiles[i].groupid].push(i); } }// divide properties by groupid //
     for (var i = 0; i < aOwned.length; i++) {
         if (aOwned[i].length > 0) {
-            var ePropertyBox = $('<div class="propertyBox"></div>');
-            eMonopolies.append(ePropertyBox);
-            for (var j = 0; j < aOwned[i].length; j++) {
-                if (sTradeMode != "Trade" || checkAssets(aOwned[i][j]) == 0) {
-                    if (sTradeMode == "Trade") { var nCost = aoTiles[aOwned[i][j]].price; }// if in trade mode show property price //
-                    else {
-                        if (aoTiles[aOwned[i][j]].type == "utility") { var nCost = checkRent(aOwned[i][j]) + 'x'; }// if utility //
-                        else { var nCost = checkRent(aOwned[i][j]); }// if not utility //
-                    }// if not in trade mode //
-                    var eProperty = $('<div id="property' + aOwned[i][j] + '" class="property"></div>');
-                    var ePropertyHead = $('<div class="propertyHead"></div>');
-                    var ePropertyBody = $('<div class="propertyBody"><p>' + nCost + '</p></div>');
-                    var eAssetBox = $('<div class="propertyAssets"></div>');
+            if (!(sTradeMode == "Trade" && checkAssets(aOwned[i][0]) > 0)) {
+                var ePropertyBox = $('<div class="propertyBox"></div>');
+                eMonopolies.append(ePropertyBox);
+                for (var j = 0; j < aOwned[i].length; j++) {
+                    if (sTradeMode != "Trade" || checkAssets(aOwned[i][j]) == 0) {
+                        if (sTradeMode == "Trade") { var nCost = aoTiles[aOwned[i][j]].price; }// if in trade mode show property price //
+                        else {
+                            if (aoTiles[aOwned[i][j]].type == "utility") { var nCost = checkRent(aOwned[i][j]) + 'x'; }// if utility //
+                            else { var nCost = checkRent(aOwned[i][j]); }// if not utility //
+                        }// if not in trade mode show rent //
+                        var eProperty = $('<div id="property' + aOwned[i][j] + '" class="property"></div>');
+                        var ePropertyHead = $('<div class="propertyHead"></div>');
+                        var ePropertyBody = $('<div class="propertyBody"><p>' + nCost + '</p></div>');
+                        var eAssetBox = $('<div class="propertyAssets"></div>');
 
-                    if (aoTiles[aOwned[i][j]].type == "street") { ePropertyHead.addClass(aoTiles[aOwned[i][j]].color); }// if street tile //
-                    if (aoTiles[aOwned[i][j]].type == "train") { ePropertyBody.addClass(aoTiles[aOwned[i][j]].type + 'Mini'); }// if railroad tile //
-                    if (aoTiles[aOwned[i][j]].type == "utility") { ePropertyBody.addClass(aoTiles[aOwned[i][j]].utility + 'Mini'); }// if utility tile //
-                    if (aoTiles[aOwned[i][j]].assets == 5) {
-                        var eAsset = $('<div class="assetMini hotel"></div>');
-                        eAssetBox.append(eAsset);
-                    }// if hotel on tile //
-                    else {
-                        for (var k = 0; k < aoTiles[aOwned[i][j]].assets; k++) {
-                            var eAsset = $('<div class="assetMini house"></div>');
+                        if (aoTiles[aOwned[i][j]].type == "street") { ePropertyHead.addClass(aoTiles[aOwned[i][j]].color); }// if street tile //
+                        if (aoTiles[aOwned[i][j]].type == "train") { ePropertyBody.addClass(aoTiles[aOwned[i][j]].type + 'Mini'); }// if railroad tile //
+                        if (aoTiles[aOwned[i][j]].type == "utility") { ePropertyBody.addClass(aoTiles[aOwned[i][j]].utility + 'Mini'); }// if utility tile //
+                        if (aoTiles[aOwned[i][j]].assets == 5) {
+                            var eAsset = $('<div class="assetMini hotel"></div>');
                             eAssetBox.append(eAsset);
-                        }// show houses if there are any //
-                    }// if only houses or nothing //
-                    ePropertyBox.append(eProperty);
-                    eProperty.append(ePropertyHead)
-                            .append(ePropertyBody);
-                    ePropertyHead.append(eAssetBox);
-                }
-            }// go over properties in group //
+                        }// if hotel on tile //
+                        else {
+                            for (var k = 0; k < aoTiles[aOwned[i][j]].assets; k++) {
+                                var eAsset = $('<div class="assetMini house"></div>');
+                                eAssetBox.append(eAsset);
+                            }// show houses if there are any //
+                        }// if either houses or nothing //
+                        ePropertyBox.append(eProperty);
+                        eProperty.append(ePropertyHead)
+                                .append(ePropertyBody);
+                        ePropertyHead.append(eAssetBox);
+                    }
+                }// go over properties in group //
+            }// NOT both in trade mode and has assets in monopoly //
         }// if player has properties in group //
     }// go over owned properties array //
     if (aoPlayers[player].cards[0] == 1 || aoPlayers[player].cards[1] == 1) {
@@ -1071,7 +1255,7 @@ function showPlayerOwned(player, element) {
         }
     }// if player has cards to trade //
     if (sTradeMode != "Trade") {
-        var nMarginTop = aPlayers.indexOf(parseInt(player)) * 100 + 256 - ($('.propertyBox').length * 56) / 2;
+        var nMarginTop = aPlayers.indexOf(parseInt(player)) * 70 + 240 - ($('.propertyBox').length * 54) / 2;
         var nMarginBottom = nMarginTop + $('.propertyBox').length * 56;
         if (nMarginBottom > 734) { nMarginTop = parseInt(734 - $('.propertyBox').length * 56); }
         if (nMarginTop < 2) { nMarginTop = 2; }
@@ -1083,18 +1267,18 @@ function showPlayerOwned(player, element) {
         showTileInfo(nId);
         showTileSelected(nId);
         if (sTradeMode == "Trade") {
-            if (element.find('#property' + nId).hasClass('propertyHighLight')) {
-                element.find('#property' + nId).removeClass('propertyHighLight');
-            }
-            else {
-                element.find('#property' + nId).addClass('propertyHighLight');
-            }
+            if (element.find('#property' + nId).hasClass('propertyHighLight')) { element.find('#property' + nId).removeClass('propertyHighLight'); }// unhighlight it //
+            else { element.find('#property' + nId).addClass('propertyHighLight'); }// highlight it //
         }// if in trade mode //
-    });
+    });// property event listener //
     element.find("div[id^='card']").click(function showCard() {
-        var nId = parseInt(this.id.match(/\d+/)[0]);
+        var nId = parseInt(this.id.match(/\d+/)[0]);        
         showDialog('Get out of Jail free!', nId);
-    });
+        if (sTradeMode == "Trade") {
+            if (element.find('#card' + nId).hasClass('propertyHighLight')) { element.find('#card' + nId).removeClass('propertyHighLight'); }// unhighlight it //
+            else { element.find('#card' + nId).addClass('propertyHighLight'); }// highlight it //
+        }// if in trade mode //
+    });// card event listener //
 }////////////////////// SHOW PLAYER OWNED/RENTS IN MENU //
 function showPlayerAssets(player) {
 //    console.log(" -showPlayerAssets");
@@ -1105,17 +1289,17 @@ function showPlayerAssets(player) {
             if (aoTiles[i].owner == player) {// if owner is player
                 if (aoTiles[i].mortgage == "yes") {
                     $('#tile' + i).addClass("yellowLed");// tile is mortgaged
-                }
+                }// mortgaged //
                 else if (checkMonopoly(i) == "yes") {
                     $('#tile' + i).addClass("blueLed");// player can build on tile
-                }
+                }// in monopoly //
                 else {
                     $('#tile' + i).addClass("greenLed");// player owns tile
-                }
-            }
+                }// neigher mortgaged nor in monopoly //
+            }// owner is player //
             if (aoTiles[i].owner != player) { $('#tile' + i).addClass("redLed"); }// owner is other player
-        }
-    }
+        }// if tile has owner //
+    }// go over tiles //
 }////////////////////////////// SHOW PLAYER OWNED/MORTGAGED/MONOPOLY ON MAP //
 function showPlayerSelected(player) {
 //    console.log(" -showPlayerSelected");
@@ -1138,7 +1322,7 @@ function showAvatars() {
         var sAvatar = aoPlayers[aPlayers[i]].avatar;
         var eAvatar = $('<div id="player' + aPlayers[i] + '" class="avatar ' + sAvatar + '"></div>');
         eAvatarBox.append(eAvatar);
-    }
+    }// go over players //
 }///////////////////////////////////////// SHOW AVATARS //
 function showDialog(text, type) {
     switch (type) {
@@ -1196,7 +1380,7 @@ function showDialog(text, type) {
             var sAt = "right top";
             var eOf = $('#tile10');
         break;
-    }
+    }// switch location of window according to dialog type //
     eDialog.empty()
         .append('<p>' + text + '</p>')
         .dialog({ position: { my: sMy, at: sAt, of: eOf }});
@@ -1209,21 +1393,21 @@ function checkWealth(player) {
     for (var i = 0; i < aoTiles.length; i++) {
         if (aoTiles[i].owner == player) {
             nWealth += checkValue(i);
-        }
-    }
+        }// if tile is owned by player //
+    }// go over tiles //
     return nWealth;
 }/////////////////////////////////// CHECK TOTAL WEALTH OF PLAYER //
 function checkValue(id) {
     var nValue = 0;
     if (aoTiles[id].mortgage == "yes") {
         nValue += aoTiles[id].price / 2;
-    }
+    }// tile is mortgaged //
     else {
         nValue += aoTiles[id].price;
-    }
+    }// not mortgaged //
     if (aoTiles[id].assets > 0) {
         nValue += aoTiles[id].assets * (aoTiles[id].cost / 2);
-    }
+    }// tile has buildings //
     return nValue;
 }//////////////////////////////////////// CHECK TOTAL VALUE OF TILE //
 function checkAssets(id) {
@@ -1250,17 +1434,17 @@ function checkPlayerDebt() {
 //    console.log("   -checkPlayerDebt");
     var nPlayer = aPlayers[0];
     var nPlayerDebt = 0;
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < 6; i++) {
         nPlayerDebt += aoPlayers[nPlayer].debt[i];
     }
     return nPlayerDebt;
-}/////////////////////////////////////////// CHECK IF PLAYER HAS DEBT //
+}////////////////////////////////////// CHECK IF PLAYER HAS DEBT TO OTHER PLAYERS //
 function checkBankDebt() {
     var nPlayer = aPlayers[0];
     var nPriority = aoPlayers[nPlayer].priority;
-    var nBankDebt = aoPlayers[nPlayer].debt[4];
+    var nBankDebt = aoPlayers[nPlayer].debt[6];
     return nPriority + nBankDebt;
-}
+}//////////////////////////////////////// CHECK IF PLAYER HAS DEBT TO BANK //
 function checkBuy() {
 //    console.log("   -checkBuy");
     var nPlayer = aPlayers[0];
@@ -1286,12 +1470,12 @@ function checkMonopoly(id) {
                 if (aoTiles[i].owner == sOwner) { nPlayerHas += 1; }//number of tiles of that color owner has
                 if (aoTiles[i].mortgage == "yes") { nMortgages += 1; }//number of tiles of that color owner has
             }
-        }
+        }// go over tiles of a certain color //
         if (nMonopolyHas == nPlayerHas) {
             if (nMortgages == 0) { return "yes"; }
             else { return "but"; }
-        }
-    }
+        }// player has all tiles in monopoly //
+    }// if street tile //
     if (aoTiles[id].type == "train" || aoTiles[id].type == "utility") {
         var sType = aoTiles[id].type;
         for (var i = 0; i < aoTiles.length; i++) {
@@ -1329,9 +1513,9 @@ function getProperty() {
     if (aoPlayers[nPlayer].credits >= aoTiles[nLocation].price) {
         aoTiles[nLocation].owner = nPlayer;
         aoPlayers[nPlayer].credits -= aoTiles[nLocation].price;
-        if (checkMonopoly(nLocation) == "yes" || checkMonopoly(nLocation) == "but") { showDialog('You have acquired a monopoly', 'monopoly'); }
+        if (checkMonopoly(nLocation) == "yes" || checkMonopoly(nLocation) == "but") { showDialog('You have acquired a monopoly', 'monopoly'); }// if this tile completes monopoly //
         showAll(nLocation, nPlayer);
-    }
+    }// player has enough credits //
     else {
         showDialog('Not enough credits!', 'warning');
     }
@@ -1348,23 +1532,31 @@ function getAsset(id) {
     var nPlayer = aPlayers[0];
     var bought = "no";
     if (aoPlayers[nPlayer].credits >= aoTiles[id].cost) {
-        if (isNaN(aoTiles[id].assets)) {
-            aoTiles[id].assets = 1;
-            bought = "yes";
-        }
-        else {
-            if (checkAssets(id) >= (checkProperties(id) * aoTiles[id].assets)) {
-                aoTiles[id].assets = aoTiles[id].assets + 1;
+        if (!((aoTiles[id].assets == 4 && aoTiles[0].bank[0] == 0) || ((aoTiles[id].assets < 4 || isNaN(aoTiles[id].assets)) && aoTiles[0].bank[1] == 0))) {
+            if (isNaN(aoTiles[id].assets)) {
+                aoTiles[id].assets = 1;
+                aoTiles[0].bank[1] -= 1;
                 bought = "yes";
-            }
-            else { showDialog('Your assets have to be spread out more evenly accross your monopoly!', 'warning'); }
+            }// first asset //
+            else {
+                if (checkAssets(id) >= (checkProperties(id) * aoTiles[id].assets)) {
+                    aoTiles[id].assets = aoTiles[id].assets + 1;
+                    if (aoTiles[id].assets == 5) {
+                        aoTiles[0].bank[0] -= 1;
+                        aoTiles[0].bank[1] += 4;
+                    }
+                    else { aoTiles[0].bank[1] -= 1; }
+                    bought = "yes";
+                }
+                else { showDialog('Your assets have to be spread out more evenly accross your monopoly!', 'warning'); }
+            }// checking if assets are spread out enough //
+            if (bought == "yes") {
+                aoPlayers[nPlayer].credits -= aoTiles[id].cost;
+                showAll(id, nPlayer);
+            }// player was able to buy asset //
         }
-        
-        if (bought == "yes") {
-            aoPlayers[nPlayer].credits -= aoTiles[id].cost;
-            showAll(id, nPlayer);
-        }
-    }
+        else { showDialog('The bank has no more to sell!', 'warning'); }
+    }// player has enough credits to buy house/hotel
     else { showDialog('Not enough credits!', 'warning'); }
 }////////////////////////////////////////// BUY AN ASSET //
 
@@ -1389,7 +1581,7 @@ function setDebt() {
         if (sType == "train") { aoPlayers[nPlayer].debt[nOwner] = sRent * nFactor; }
         if (sType == "utility") { aoPlayers[nPlayer].debt[nOwner] = sRent * nDice * nFactor; }
     }// rent
-    if (nPrice < 0) { aoPlayers[nPlayer].debt[4] = Math.abs(parseInt(nPrice)); }// taxes
+    if (nPrice < 0) { aoPlayers[nPlayer].debt[6] = Math.abs(parseInt(nPrice)); }// taxes
 }///////////////////////////////////////////// SET DEBT IF PLAYER HAS TO PAY //
 
 function payDebt(amount) {
@@ -1397,17 +1589,17 @@ function payDebt(amount) {
     var nPlayer = aPlayers[0];
     
     if (aoPlayers[nPlayer].credits >= amount) {
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < 6; i++) {
             aoPlayers[i].credits += aoPlayers[nPlayer].debt[i];
-        }
+        }// resolve debt to other players //
         aoPlayers[nPlayer].credits -= amount;
         aoPlayers[nPlayer].pay = "no";
         aoPlayers[nPlayer].priority = 0;
-        aoPlayers[nPlayer].debt = [0, 0, 0, 0, 0];
+        aoPlayers[nPlayer].debt = [0, 0, 0, 0, 0, 0, 0];
 
         showPlayerInfo();
         playerTurn();
-    }
+    }// player can cover debt //
     else {
         showDialog('Not enough credits!', 'warning');
     }
@@ -1422,7 +1614,7 @@ function payFine() {
         playerReset();
         showPlayerInfo();
         playerMove();
-    }
+    }// player has enough credits to pay fine //
     else {
         showDialog('Not enough credits!', 'warning');
     }
@@ -1435,7 +1627,7 @@ function payMortgage(id) {
         aoTiles[id].mortgage = "no";
         aoPlayers[nPlayer].credits -= Math.round(aoTiles[id].price / 2 * 1.1);
         showAll(id, nPlayer);
-    }
+    }// player has enough credits to pay mortgage //
     else {
         showDialog('Not enough credits!', 'warning');
     }
@@ -1444,13 +1636,49 @@ function payMortgage(id) {
 function sellAsset(id) {
 //    console.log(" -sellAsset");
     var nPlayer = aPlayers[0];
-    
-    if (aoTiles[id].assets >= checkAssets(id) / checkProperties(id)) {
-        aoTiles[id].assets = aoTiles[id].assets - 1;
-        aoPlayers[nPlayer].credits += (aoTiles[id].cost / 2);
-        showAll(id, nPlayer);
+
+    if (aoTiles[id].assets == 5 && aoTiles[0].bank[1] < 4) {
+        var eModalDialog = $('#modalSellDialog');
+        eModalDialog.empty()
+            .append('<p>The bank doesn\'t have enough houses left to exchange your hotel. You need to sell the hotel in it\'s entirety!</p>')
+            .dialog({
+                modal: true,
+                closeOnEscape: false,
+                dialogClass: "no-close",
+                buttons: [
+                    {
+                        text: "Sell for " + aoTiles[id].cost / 2 * 5,
+                        click: function() {
+                            delete aoTiles[id].assets;
+                            aoTiles[0].bank[0] += 1;
+                            aoPlayers[nPlayer].credits += aoTiles[id].cost / 2 * 5;
+                            showAll(id, nPlayer);
+                            $(this).dialog("close");
+                        }
+                    },
+                    {
+                        text: "Cancel",
+                        click: function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                ]
+            });
+    }// modal dialog if bank doesn't have enough houses to replace for hotel //
+    else {
+        if (aoTiles[id].assets >= checkAssets(id) / checkProperties(id)) {
+            if (aoTiles[id].assets == 5) {
+                aoTiles[0].bank[0] += 1;
+                aoTiles[0].bank[1] -= 4;
+            }
+            else { aoTiles[0].bank[1] += 1; }
+            aoTiles[id].assets = aoTiles[id].assets - 1;
+            aoPlayers[nPlayer].credits += (aoTiles[id].cost / 2);
+            showAll(id, nPlayer);
+        }// assets spread out enough to sell here //
+        else { showDialog('Your assets have to be spread out more evenly accross your monopoly!', 'warning'); }
     }
-    else { showDialog('Your assets have to be spread out more evenly accross your monopoly!', 'warning'); }
+    
 }///////////////////////////////////////// SELL AN ASSET //
 function sellProperty(id) {
 //    console.log(" -sellProperty");
@@ -1473,3 +1701,4 @@ function shuffleCards(cards) {
         cards[j] = card;
     }
 }//////////////////////////////////// SHUFFLE CARDS //
+function sortNumber(a,b) { return b - a; }//////////////////////////////////////////////// SORT NUMBERS DESC //

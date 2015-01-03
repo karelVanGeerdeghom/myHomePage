@@ -4,7 +4,8 @@ var aoTiles = [
         title: "Start",
         description: "Receive 200 when you pass \"GO\"",
         trains: [25, 50, 100, 200],
-        utilities: [4, 10]
+        utilities: [4, 10],
+        bank: [12, 32]
     },
     {
         id: 1,
