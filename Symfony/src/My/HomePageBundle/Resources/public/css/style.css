@@ -1,9 +1,47 @@
 html { 
   background: url("../images/waterdrop.jpg") no-repeat center center fixed; 
   -webkit-background-size: cover;
-  -moz-background-size: cover;
+  -moz-background-size: contain;
   -o-background-size: cover;
   background-size: cover;
+}
+
+body {
+    margin:0;
+    padding:0;
+}
+
+header {
+    width:100%;
+//    outline: blue 1px solid;
+    height: 8.9em;
+}
+
+h1 {
+    font-family: 'Amatic SC', cursive;
+    font-size: 3em;
+}
+
+.wrapper {
+    width:100%;
+}
+
+.content {
+    width: 96%;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, .75);
+    outline: green 1px solid;
+}
+/******************************************************************************* LOGO */
+.logo {
+    margin-top:-2.5em;
+    margin-bottom:-2.5em;
+    margin-left:auto;
+    margin-right:auto;
+    width:15em;
+    text-align: center;
+    overflow:hidden;
+    color: #C9E8EF;
 }
 //############################################################################# Navigation
 .navContainer {
@@ -11,7 +49,7 @@ html {
     margin: 0 auto;
     font-family:Arial;
     overflow:hidden;
-    outline: red 1px solid;
+//    outline: red 1px solid;
 }
 
 .navbar {
@@ -19,7 +57,7 @@ html {
     width:11.2em;
     margin:0 auto;
     overflow:hidden;
-    outline: red 1px solid;
+//    outline: red 1px solid;
 }
 
 .navbar ul {
@@ -65,4 +103,117 @@ html {
 
 .content p {
     color:red;
+}
+/******************************************************************************* 361px */
+@media screen and (min-width:361px) {
+    header {
+        height: 10.5em;
+    }
+    
+    h1 {
+        font-size: 4em;
+    }
+    
+    .logo {
+        margin-top:-3em;
+        margin-bottom:-3em;
+        width:20em;
+    }
+}
+/******************************************************************************* 600px */
+@media screen and (min-width:600px) {
+    header {
+        height:8.75em;
+    }
+    
+    h1 {
+        font-size: 4.5em;
+    }
+    
+    .navbar {
+        width:22.4em;
+    }
+
+    .content {
+        width:93%;
+    }
+}
+/******************************************************************************* 800px */
+@media screen and (min-width:800px) {
+    header {
+        height:9.05em;
+    }
+    
+    h1 {
+        font-size: 5em;
+    }
+    
+    .logo {
+        margin-top:-3.5em;
+        margin-bottom:-3.5em;
+        width:22em;
+    }
+    
+    .content {
+        width:80%;
+    }
+}
+/******************************************************************************* 1024px */
+@media screen and (min-width:1024px) {
+    header {
+        height:9.65em;
+    }
+
+    h1 {
+        font-size: 6em;
+    }
+    
+    .logo {
+        margin-top:-4.5em;
+        margin-bottom:-4.5em;
+        width:26em;
+    }
+    
+    .content {
+        width:72%;
+    }
+}
+/******************************************************************************* 1280px */
+@media screen and (min-width:1280px) {
+    header {
+        height:11.25em;
+    }
+
+    h1 {
+        font-size: 7em;
+    }
+
+    .logo {
+        margin-top:-5em;
+        margin-bottom:-5em;
+        width:32em;
+    }
+    
+    .content {
+        width:66%;
+    }
+}
+/******************************************************************************* 1600px */
+@media screen and (min-width:1600px) {
+    .content {
+        width:60%;
+    }
+}
+/******************************************************************************* clearFix hack */
+.clearFix:before, .clearFix:after {
+    content:"";
+    display:table;
+}
+
+.clearFix:after {
+    clear:both;
+}
+
+.cleafFix {
+    *zoom:1;
 }
