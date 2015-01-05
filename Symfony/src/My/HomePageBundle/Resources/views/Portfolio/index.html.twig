@@ -11,4 +11,14 @@
     </ul>
 {% endblock %}
 
-{% block content %}<p>Portfolio content here</p>{% endblock %}
+{% block content %}
+    <div class="portBox">
+        {% for site in sites %}
+            <section>
+                <h3>{{ site.name }}</h3>
+                <div><a href="{{ site.link }}" target='_blank'><img src="../bundles/homepage/images/{{ site.path }}"></a></div>
+                <p>{{ site.description }}</p>
+            </section>
+        {% endfor %}
+    </div>
+{% endblock %}
