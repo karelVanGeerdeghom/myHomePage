@@ -27,38 +27,49 @@ class Site {
     /**
      * @var string
      *
-     * @ORM\Column(name="Name", type="string", length=100)
+     * @ORM\Column(name="name", type="string", length=100)
      */
     public $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Description", type="text")
+     * @ORM\Column(name="description", type="text")
      */
     public $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Link", type="string", length=255)
+     * @ORM\Column(name="link", type="string", length=255)
      */
     public $link;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Path", type="string", length=255)
+     * @ORM\Column(name="path", type="string", length=255)
      */
     public $path;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="Active", type="boolean")
+     * @ORM\Column(name="active", type="boolean")
      */
     public $active;
 
+    /**
+     *
+     * @var \Doctrine\Common\Collections\ArrayCollection $technologies
+     * 
+     * @ORM\ManyToMany(targetEntity="Technology", inversedBy="sites")
+     * @ORM\JoinTable(name="site_technology",
+     *      joinColumns={@ORM\JoinColumn(name="site_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="technology_id", referencedColumnName="id")}
+     * )
+     */
+    protected $technologies;
 
     /**
      * Get id
@@ -274,5 +285,50 @@ class Site {
     public function getFile()
     {
         return $this->file;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->technologies = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add technologies
+     *
+     * @param \My\HomePageBundle\Entity\Technology $technologies
+     * @return Site
+     */
+    public function addTechnology(\My\HomePageBundle\Entity\Technology $technologies)
+    {
+        $this->technologies[] = $technologies;
+
+        return $this;
+    }
+
+    /**
+     * Remove technologies
+     *
+     * @param \My\HomePageBundle\Entity\Technology $technologies
+     */
+    public function removeTechnology(\My\HomePageBundle\Entity\Technology $technologies)
+    {
+        $this->technologies->removeElement($technologies);
+    }
+
+    /**
+     * Get technologies
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTechnologies()
+    {
+        return $this->technologies;
+    }
+    
+    public function __toString()
+    {
+        return $this->getName();
     }
 }

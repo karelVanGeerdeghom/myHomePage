@@ -14,10 +14,7 @@ contact:
     path:   /contact
     defaults: { _controller: MyHomePageBundle:Contact:index }
     
-admin:
-    path: /admin
-    defaults: { _controller: MyHomePageBundle:Admin:index }
-
-upload:
-    path: /admin/upload
-    defaults: { _controller: MyHomePageBundle:Admin:upload }
+MyHomePageBundle:
+    resource: "@MyHomePageBundle/Controller/"
+    type: annotation
+    prefix: /
