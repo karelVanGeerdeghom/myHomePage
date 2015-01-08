@@ -17,6 +17,11 @@
             <section>
                 <h3>{{ site.name }}</h3>
                 <div><a href="{{ site.link }}" target='_blank'><img src="../bundles/homepage/images/{{ site.path }}"></a></div>
+                <p>Uses: 
+                    {% for technology in site.technologies %}
+                        {{ technology.description }} 
+                    {% endfor %}
+                </p>
                 <p>{{ site.description }}</p>
             </section>
         {% endfor %}

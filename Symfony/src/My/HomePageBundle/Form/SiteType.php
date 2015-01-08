@@ -18,7 +18,7 @@ class SiteType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('link')
-            ->add('active')
+            ->add('active', 'checkbox', array('data' => true))
             ->add('file')
             ->add('technologies')
         ;

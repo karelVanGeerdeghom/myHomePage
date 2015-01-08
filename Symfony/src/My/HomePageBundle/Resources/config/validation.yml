@@ -1,0 +1,16 @@
+My\HomePageBundle\Entity\Site:
+    properties:
+        name:
+            - NotBlank: ~
+        description:
+            - NotBlank: ~
+        link:
+            - NotBlank: ~
+        file:
+            - Image: ~
+            
+My\HomePageBundle\Entity\Technology:
+    properties:
+        description:
+            - NotBlank: ~
+        
