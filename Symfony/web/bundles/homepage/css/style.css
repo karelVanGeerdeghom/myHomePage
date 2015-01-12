@@ -71,7 +71,7 @@ h1 {
 .navItem:hover {
     background-color: #C9E8EF;
     border:.1em solid #D6F6FF;
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0.075) inset, 0 0 16px rgba(214, 246, 255, 255);
+    box-shadow: 0 0 16px rgba(214, 246, 255, 255);
 }
 .navItemSelected {
     float:left;
@@ -81,7 +81,7 @@ h1 {
     border-radius:.25em;   
     background-color: #C9E8EF;
     border:.1em solid #D6F6FF;
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0.075) inset, 0 0 16px rgba(214, 246, 255, 255);
+    box-shadow: 0 0 16px rgba(214, 246, 255, 255);
 }
 .navbar li a {
     font-family: 'Amatic SC', cursive;
@@ -94,7 +94,7 @@ h1 {
 /******************************************************************************* PORTFOLIO */
 .portBox section {
     width:80%;
-    height:19.1em;
+    height:20em;
     margin-left:auto;
     margin-right:auto;
     margin-top:1em;
@@ -107,12 +107,17 @@ h1 {
     margin-bottom:16px;
     margin-left:auto;
     margin-right:auto;
-    border:1px solid #0FF;
-    box-shadow: 0 0 16px rgba(0, 255, 255, 128);
+    border:1px solid #D6F6FF;
+    box-shadow: 0 0 32px rgba(214, 246, 255, 255);
 }
-.portBox img {
+.portScreen {
     width:100%;
     margin-bottom:-4px;
+}
+.portTech {
+    width: 30px;
+    height: 30px;
+    background-size: 100%;
 }
 /******************************************************************************* 361px */
 @media screen and (min-width:361px) {

@@ -17,4 +17,4 @@ contact:
 MyHomePageBundle:
     resource: "@MyHomePageBundle/Controller/"
     type: annotation
-    prefix: /
+    prefix: /admin
